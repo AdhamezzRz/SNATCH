@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="theme-color" content="{{ settings.color_paper }}">
     <link rel="canonical" href="{{ canonical_url }}">
     {%- if settings.favicon != blank -%}
@@ -19,13 +19,24 @@
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
     {% render 'meta-tags' %}
+    <link rel="preload" href="{{ 'marcellus.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ 'instrument-sans.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
     {% render 'theme-styles' %}
     {{ 'snatch.css' | asset_url | stylesheet_tag }}
     <script>
-      document.documentElement.classList.replace('no-js', 'js');
+      (function () {
+        var d = document.documentElement;
+        d.classList.replace('no-js', 'js');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('reduce');
+        {%- if settings.intro and request.design_mode == false and template.name == 'index' %}
+        try { if (!d.classList.contains('reduce') && !sessionStorage.getItem('snatch:intro')) d.classList.add('is-intro'); } catch (e) {}
+        {%- endif %}
+        window.__snatchBooted = false;
+        setTimeout(function () { if (!window.__snatchBooted) d.classList.add('failsafe'); d.classList.remove('is-intro'); }, 4500);
+      })();
       window.SNATCH = {
         moneyFormat: {{ shop.money_format | json }},
+        smooth: {{ settings.smooth_scroll | json }},
         routes: {
           root: {{ routes.root_url | json }},
           cart: {{ routes.cart_url | json }},
@@ -47,11 +58,13 @@
         }
       };
     </script>
+    {%- if settings.smooth_scroll -%}<script src="{{ 'lenis.min.js' | asset_url }}" defer></script>{%- endif -%}
     <script src="{{ 'snatch.js' | asset_url }}" defer></script>
     {{ content_for_header }}
   </head>
   <body class="template-{{ template.name }}">
     <a class="skip-link" href="#MainContent">{{ 'general.skip_to_content' | t }}</a>
+    {%- if settings.intro and request.design_mode == false and template.name == 'index' -%}{% render 'intro' %}{%- endif -%}
     {% sections 'header-group' %}
     <main id="MainContent" class="main" role="main" tabindex="-1">
       {{ content_for_layout }}

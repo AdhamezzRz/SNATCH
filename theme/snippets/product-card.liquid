@@ -53,27 +53,27 @@
 -%}
 <article class="card{% if size != blank %} card--{{ size }}{% endif %}" data-card data-shape="{{ shape | handleize }}" data-shape-label="{{ shape | escape }}" data-colours="{{ families | strip | escape }}"{% if idx.size < 2 and colour != blank and settings.group_colorways %} data-family-fetch="{{ family | escape }}"{% endif %}>
   <div class="card__frame">
-  <a class="card__media stage" href="{{ p.url }}" data-card-link tabindex="-1" aria-hidden="true" style="view-transition-name: p-{{ p.id }}">
-    {%- if img -%}
-      {{ img | image_url: width: 1200 | image_tag: loading: loading, sizes: sizes, widths: '360, 540, 720, 900, 1200', class: 'card__img', alt: p.title, data-card-img: '' }}
-      {%- if img2 -%}
-        {{ img2 | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: sizes, widths: '360, 540, 720, 900, 1200', class: 'card__img card__img--alt', alt: '', data-card-alt: '' }}
+    <a class="card__media stage" href="{{ p.url }}" data-card-link tabindex="-1" aria-hidden="true" style="view-transition-name: p-{{ p.id }}">
+      {%- if img -%}
+        {{ img | image_url: width: 1200 | image_tag: loading: loading, sizes: sizes, widths: '360, 540, 720, 900, 1200', class: 'card__img', alt: p.title, data-card-img: '' }}
+        {%- if img2 -%}
+          {{ img2 | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: sizes, widths: '360, 540, 720, 900, 1200', class: 'card__img card__img--alt', alt: '', data-card-alt: '' }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'card__placeholder' }}
       {%- endif -%}
-    {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag: 'card__placeholder' }}
+      {%- unless p.available -%}<span class="card__flag">{{ 'products.sold_out' | t }}</span>{%- endunless -%}
+    </a>
+    {%- if settings.quick_add and p.has_only_default_variant -%}
+      <button type="button" class="card__add" data-quick-add data-variant="{{ v.id }}" {% unless v.available %}disabled{% endunless %} aria-label="{{ 'products.quick_add' | t: title: p.title | escape }}" data-label-template="{{ 'products.quick_add' | t: title: '__T__' | escape }}">
+        <span class="card__add-text">{{ 'products.add_to_bag' | t }}</span>{% render 'icon', name: 'plus' %}
+      </button>
     {%- endif -%}
-    {%- unless p.available -%}<span class="card__flag">{{ 'products.sold_out' | t }}</span>{%- endunless -%}
-  </a>
-  {%- if settings.quick_add and p.has_only_default_variant -%}
-    <button type="button" class="card__add" data-quick-add data-variant="{{ v.id }}" {% unless v.available %}disabled{% endunless %} aria-label="{{ 'products.quick_add' | t: title: p.title | escape }}" data-label-template="{{ 'products.quick_add' | t: title: '__T__' | escape }}">
-      {% render 'icon', name: 'plus' %}<span class="card__add-text">{{ 'products.add' | t }}</span>
-    </button>
-  {%- endif -%}
   </div>
   <div class="card__meta">
     <h3 class="card__title"><a href="{{ p.url }}" data-card-link data-card-title>{{ family }}</a></h3>
-    <p class="card__sub"><span data-card-colour>{{ colour | default: shape }}</span>{%- if idx.size > 1 -%}<span class="card__count"> · {{ 'general.colours' | t: count: idx.size }}</span>{%- endif -%}</p>
     <p class="card__price">{% render 'price', product: p %}</p>
+    <p class="card__sub"><span data-card-colour>{{ colour | default: shape }}</span>{%- if idx.size > 1 -%}<span class="card__count"> · {{ idx.size }}</span>{%- endif -%}</p>
     {%- if idx.size > 1 -%}
       <ul class="dots" role="list" data-dots>
         {%- for i in idx limit: 7 -%}

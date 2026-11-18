@@ -1,22 +1,23 @@
-<dialog class="drawer drawer--right" id="CartDrawer" aria-labelledby="CartDrawerTitle" data-cart-drawer>
-  <div class="drawer__panel">
-    <header class="drawer__head">
-      <h2 class="drawer__title" id="CartDrawerTitle">{{ 'cart.title' | t }} <span class="muted" data-cart-count-label>({{ cart.item_count }})</span></h2>
-      <button type="button" class="icon-btn" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+<dialog class="sheet" id="CartDrawer" aria-labelledby="CartDrawerTitle" data-cart-drawer>
+  <div class="sheet__panel">
+    <span class="sheet__grip" aria-hidden="true"></span>
+    <header class="sheet__head">
+      <h2 class="sheet__title" id="CartDrawerTitle">{{ 'cart.title' | t }} <sup data-cart-count-label>{{ cart.item_count }}</sup></h2>
+      <button type="button" class="hicon" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
     </header>
-    <div class="drawer__body" data-cart-body aria-busy="false">
+    <div class="sheet__body" data-cart-body aria-busy="false">
       {% render 'cart-lines' %}
     </div>
-    <footer class="drawer__foot" data-cart-foot {% if cart.item_count == 0 %}hidden{% endif %}>
+    <footer class="sheet__foot" data-cart-foot {% if cart.item_count == 0 %}hidden{% endif %}>
       <div class="total">
-        <span>{{ 'cart.subtotal' | t }}</span>
+        <span class="label">{{ 'cart.subtotal' | t }}</span>
         <span class="total__amount" data-cart-total>{{ cart.total_price | money }}</span>
       </div>
       <p class="small muted">{{ 'cart.taxes_note' | t }}</p>
       <form action="{{ routes.cart_url }}" method="post">
-        <button type="submit" name="checkout" class="btn btn--primary btn--block">{{ 'cart.checkout' | t }}{% render 'icon', name: 'arrow' %}</button>
+        <button type="submit" name="checkout" class="btn btn--wine btn--block"><span>{{ 'cart.checkout' | t }}</span>{% render 'icon', name: 'arrow' %}</button>
       </form>
-      <a class="link small" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+      <button type="button" class="sheet__cont" data-close>{{ 'cart.continue' | t }}</button>
     </footer>
     <p class="sr-only" data-cart-status aria-live="polite" aria-atomic="true"></p>
   </div>

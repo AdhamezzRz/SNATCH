@@ -1,16 +1,23 @@
-<section class="recs" data-recs data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=12&intent=related">
+<section class="rail rail--recs" data-recs data-rail data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=10&intent=related">
   {%- if recommendations.performed and recommendations.products_count > 0 -%}
-    <header class="recs__head">
-      <h2 class="t-h2">{%- if section.settings.heading != blank -%}{{ section.settings.heading | escape }}{%- else -%}{{ 'products.you_may_also' | t }}{%- endif -%}</h2>
+    <header class="rail__head">
+      <h2 class="t-display">{%- if section.settings.heading != blank -%}{{ section.settings.heading | escape }}{%- else -%}{{ 'products.also_like' | t }}{%- endif -%}</h2>
+      <div class="rail__tools">
+        <button type="button" class="rail__arrow" data-rail-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="rail__arrow" data-rail-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'arrow' %}</button>
+      </div>
     </header>
-    <div class="grid">
-      {% render 'family-grid', products: recommendations.products, limit: 4 %}
+    <div class="rail__viewport" data-rail-viewport tabindex="0">
+      <ul class="rail__track" role="list">
+        {%- for p in recommendations.products -%}<li class="rail__item">{% render 'product-card', product: p %}</li>{%- endfor -%}
+      </ul>
     </div>
+    <div class="rail__bar" aria-hidden="true"><i data-rail-bar></i></div>
   {%- endif -%}
 </section>
 {% schema %}
 {
   "name": "Recommendations",
-  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Also in the vault" }]
+  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "You may also like" }]
 }
 {% endschema %}

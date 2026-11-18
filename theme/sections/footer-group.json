@@ -10,9 +10,10 @@
       },
       "block_order": ["menu_main", "menu_footer"],
       "settings": {
-        "text": "Handbags, edited in Cairo.",
-        "heading": "Get new arrivals first",
-        "social_title": "Info"
+        "heading": "First to know.",
+        "text": "New styles and restocked colours, straight to your inbox. Nothing else.",
+        "social_title": "Info",
+        "tagline": "Snatch the fit."
       }
     }
   },

@@ -1,8 +1,8 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "SNATCH",
-    "theme_version": "2.0.0",
+    "theme_name": "SNATCH One of One",
+    "theme_version": "3.0.0",
     "theme_author": "SNATCH",
     "theme_documentation_url": "https://github.com/AdhamezzRz/SNATCH",
     "theme_support_url": "https://github.com/AdhamezzRz/SNATCH"
@@ -10,34 +10,36 @@
   {
     "name": "Brand",
     "settings": [
-      { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in SNATCH logo." },
-      { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 220, "step": 4, "unit": "px", "default": 124 },
+      { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in SNATCH logo (recommended: it animates)." },
+      { "type": "range", "id": "logo_width", "label": "Header logo width", "min": 80, "max": 220, "step": 4, "unit": "px", "default": 128 },
       { "type": "image_picker", "id": "favicon", "label": "Favicon" }
     ]
   },
   {
     "name": "Colors",
     "settings": [
-      { "type": "color", "id": "color_paper", "label": "Background", "default": "#FFFFFF" },
-      { "type": "color", "id": "color_stage", "label": "Product image background", "default": "#F4F3F1" },
-      { "type": "color", "id": "color_ink", "label": "Text and buttons", "default": "#111111" },
-      { "type": "color", "id": "color_graphite", "label": "Secondary text", "default": "#6A6763" },
-      { "type": "color", "id": "color_line", "label": "Lines and borders", "default": "#E7E4E0" },
-      { "type": "color", "id": "color_wine", "label": "Accent", "default": "#5E1724" }
+      { "type": "color", "id": "color_paper", "label": "Paper (background)", "default": "#FAF9F7" },
+      { "type": "color", "id": "color_stone", "label": "Stone (behind product photos)", "default": "#EFECE8" },
+      { "type": "color", "id": "color_ink", "label": "Ink (text and buttons)", "default": "#121010" },
+      { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#69635E" },
+      { "type": "color", "id": "color_line", "label": "Lines", "default": "#E4E0DB" },
+      { "type": "color", "id": "color_wine", "label": "Brand colour (menu, footer, hero)", "default": "#4A0F1D" }
+    ]
+  },
+  {
+    "name": "Motion",
+    "settings": [
+      { "type": "checkbox", "id": "intro", "label": "Logo intro on first visit", "default": true },
+      { "type": "checkbox", "id": "smooth_scroll", "label": "Smooth scrolling on desktop", "default": true },
+      { "type": "checkbox", "id": "page_transitions", "label": "Λ page transitions", "default": true }
     ]
   },
   {
     "name": "Products",
     "settings": [
       { "type": "checkbox", "id": "group_colorways", "label": "Group colourways into one card", "info": "Products named like \"Style - Colour\" show as one card with colour dots.", "default": true },
-      { "type": "checkbox", "id": "quick_add", "label": "Show quick add on product cards", "default": true },
-      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show express checkout buttons", "default": true }
-    ]
-  },
-  {
-    "name": "Motion",
-    "settings": [
-      { "type": "checkbox", "id": "page_transitions", "label": "Smooth page transitions", "default": true }
+      { "type": "checkbox", "id": "quick_add", "label": "Quick add on product cards", "default": true },
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Express checkout buttons", "default": true }
     ]
   },
   {

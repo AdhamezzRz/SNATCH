@@ -12,12 +12,13 @@
   assign family = family | strip
   assign colour = colour | strip
   assign shape = shape | strip
+  assign total = product.media.size
 -%}
 <section class="pdp" data-pdp data-family="{{ family | escape }}">
-  <div class="pdp__gallery" aria-label="{{ 'products.gallery' | t }}">
-    <ul class="pdp__media-list" role="list" data-pdp-media>
+  <div class="pdp__gallery">
+    <ul class="pdp__media" role="list" data-pdp-media aria-label="{{ 'products.gallery' | t }}">
       {%- for media in product.media -%}
-        <li class="pdp__media stage" {% if forloop.first %}style="view-transition-name: p-{{ product.id }}"{% endif %}>
+        <li class="pdp__slide stage" {% if forloop.first %}style="view-transition-name: p-{{ product.id }}"{% endif %}>
           {%- case media.media_type -%}
             {%- when 'image' -%}
               {%- liquid
@@ -29,7 +30,9 @@
                 endif
                 assign m_alt = media.alt | default: product.title
               -%}
-              {{ media | image_url: width: 2000 | image_tag: loading: m_loading, sizes: '(min-width: 990px) 55vw, 100vw', widths: '600, 900, 1200, 1600, 2000', alt: m_alt, fetchpriority: m_priority }}
+              <button type="button" class="pdp__zoom" data-zoom="{{ forloop.index0 }}" aria-label="{{ 'products.zoom' | t }}">
+                {{ media | image_url: width: 2000 | image_tag: loading: m_loading, sizes: '(min-width: 990px) 56vw, 100vw', widths: '600, 900, 1200, 1600, 2000', alt: m_alt, fetchpriority: m_priority }}
+              </button>
             {%- when 'video' -%}
               {{ media | video_tag: controls: true, muted: true, playsinline: true, image_size: '1200x' }}
             {%- when 'external_video' -%}
@@ -39,27 +42,29 @@
           {%- endcase -%}
         </li>
       {%- else -%}
-        <li class="pdp__media stage">{{ 'product-1' | placeholder_svg_tag }}</li>
+        <li class="pdp__slide stage">{{ 'product-1' | placeholder_svg_tag }}</li>
       {%- endfor -%}
     </ul>
-    {%- if product.media.size > 1 -%}
-      <div class="pdp__dots" aria-hidden="true">{%- for media in product.media -%}<i{% if forloop.first %} class="is-active"{% endif %}></i>{%- endfor -%}</div>
+    {%- if total > 1 -%}
+      <p class="pdp__counter" aria-hidden="true"><span data-pdp-index>1</span> / {{ total }}</p>
     {%- endif -%}
   </div>
 
   <div class="pdp__info">
     <div class="pdp__sticky">
-      <nav class="crumbs small" aria-label="Breadcrumb">
+      <nav class="crumbs" aria-label="Breadcrumb">
         <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a><span aria-hidden="true">/</span>
         <a href="{{ routes.all_products_collection_url }}?shape={{ shape | handleize }}">{{ shape }}</a>
       </nav>
-      <h1 class="pdp__title">{{ family }}</h1>
-      {%- if colour != blank -%}<p class="pdp__colour muted">{{ colour }}</p>{%- endif -%}
-      <div class="pdp__price">{% render 'price', product: product %}</div>
+      <h1 class="pdp__title" data-split>{{ family }}</h1>
+      <div class="pdp__line">
+        {%- if colour != blank -%}<span class="pdp__colour">{{ colour }}</span>{%- endif -%}
+        <span class="pdp__price">{% render 'price', product: product %}</span>
+      </div>
 
-      <div class="pdp__siblings" data-siblings hidden>
-        <p class="label">{{ 'products.colour' | t }}: <span class="muted">{{ colour }}</span></p>
-        <ul class="sibs" role="list" data-sibling-list></ul>
+      <div class="pdp__colours" data-siblings hidden>
+        <p class="label">{{ 'products.colours_title' | t }} <span class="muted" data-sib-name>{{ colour }}</span></p>
+        <ul class="swatches" role="list" data-sibling-list></ul>
       </div>
 
       {%- form 'product', product, class: 'pdp__form', data-product-form: '', novalidate: 'novalidate' -%}
@@ -80,17 +85,11 @@
           {%- endfor -%}
           <script type="application/json" data-variants>{{ product.variants | json }}</script>
         {%- endunless -%}
-
-        <div class="pdp__actions">
-          <div class="qty" data-qty>
-            <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.decrease' | t }}">{% render 'icon', name: 'minus' %}</button>
-            <input class="qty__input" type="number" name="quantity" min="1" value="1" aria-label="{{ 'products.quantity' | t }}" data-qty-input>
-            <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
-          </div>
-          <button type="submit" name="add" class="btn btn--primary btn--grow" data-add {% unless current.available %}disabled{% endunless %}>
-            <span data-add-label>{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
-          </button>
-        </div>
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add" class="btn btn--wine btn--block btn--tall" data-add {% unless current.available %}disabled{% endunless %}>
+          <span data-add-label>{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
+          <span class="btn__price" data-add-price>{{ current.price | money }}</span>
+        </button>
         {%- if settings.show_dynamic_checkout -%}
           <div class="pdp__express">{{ form | payment_button }}</div>
         {%- endif -%}
@@ -113,16 +112,28 @@
           {%- endif -%}
         {%- endfor -%}
       </div>
-      {%- if current.sku != blank -%}<p class="small muted pdp__sku">SKU {{ current.sku }}</p>{%- endif -%}
+      {%- if current.sku != blank -%}<p class="pdp__sku">{{ current.sku }}</p>{%- endif -%}
     </div>
   </div>
 
   <div class="pdp__bar" data-pdp-bar aria-hidden="true">
-    <div class="pdp__bar-info"><strong>{{ family }}</strong><span class="small muted">{{ current.price | money }}</span></div>
-    <button type="button" class="btn btn--primary" data-bar-add tabindex="-1" {% unless current.available %}disabled{% endunless %}>
+    <div class="pdp__bar-info"><span class="pdp__bar-name">{{ family }}</span><span class="pdp__bar-meta">{{ colour }} · {{ current.price | money }}</span></div>
+    <button type="button" class="btn btn--wine" data-bar-add tabindex="-1" {% unless current.available %}disabled{% endunless %}>
       {%- if current.available -%}{{ 'products.add_to_bag' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
     </button>
   </div>
+
+  <dialog class="zoom" data-zoom-dialog aria-label="{{ 'products.zoom' | t }}">
+    <button type="button" class="hicon zoom__close" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    <ul class="zoom__track" role="list" data-zoom-track>
+      {%- for media in product.media -%}
+        {%- if media.media_type == 'image' -%}
+          {%- assign z_alt = media.alt | default: product.title -%}
+          <li class="zoom__slide">{{ media | image_url: width: 2400 | image_tag: loading: 'lazy', sizes: '100vw', widths: '1200, 1800, 2400', alt: z_alt }}</li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </dialog>
 </section>
 
 <script type="application/ld+json">

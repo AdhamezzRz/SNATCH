@@ -1,39 +1,41 @@
 {
   "sections": {
     "hero": {
-      "type": "hero-split",
-      "blocks": {
-        "day": {
-          "type": "panel",
-          "settings": {
-            "image": "shopify://shop_images/snatch-before-sunset-zamalek.png",
-            "heading": "Day bags",
-            "text": "Totes and top handles that carry the whole day.",
-            "button_label": "Shop totes",
-            "link": "/collections/all?shape=totes"
-          }
-        },
-        "night": {
-          "type": "panel",
-          "settings": {
-            "image": "shopify://shop_images/snatch-after-dark-cairo.png",
-            "heading": "After dark",
-            "text": "Clutches and small bags for the evening.",
-            "button_label": "Shop clutches",
-            "link": "/collections/all?shape=clutches"
-          }
-        }
-      },
-      "block_order": [
-        "day",
-        "night"
-      ],
+      "type": "hero-lambda",
       "settings": {
-        "label": "Featured edits"
+        "image": "shopify://shop_images/snatch-hero-walk.jpg",
+        "image_mobile": "shopify://shop_images/snatch-hero-walk-mobile.jpg",
+        "bg": "#4A0F1D",
+        "word_1": "Snatch",
+        "word_2": "the fit.",
+        "kicker": "Handbags chosen in Cairo",
+        "text": "Totes, shoulder bags and clutches, chosen one by one. Every colour, ready to go.",
+        "button_label": "Shop the edit",
+        "button_link": "#edit",
+        "button2_label": "All bags",
+        "button2_link": "/collections/all"
+      }
+    },
+    "edit": {
+      "type": "edit-rail",
+      "settings": {
+        "heading": "The edit",
+        "products": [
+          "snatch-kp-8219-burgundy",
+          "snatch-cm8267-ivory-and-cognac",
+          "snatch-bxx012509109-cream",
+          "snatch-zara-1-cognac",
+          "snatch-m8525-burgundy",
+          "snatch-l-06431-black",
+          "snatch-gl25002-sage-green",
+          "snatch-60420-ivory-and-cognac"
+        ],
+        "link_label": "Every bag",
+        "link": "/collections/all"
       }
     },
     "shapes": {
-      "type": "shape-rail",
+      "type": "shape-index",
       "blocks": {
         "s1": {
           "type": "shape",
@@ -93,60 +95,46 @@
         "s6"
       ],
       "settings": {
-        "heading": "Shop by shape"
+        "heading": "Shop by shape",
+        "note": "Six silhouettes. Every colour."
       }
     },
-    "new_in": {
-      "type": "product-grid",
-      "settings": {
-        "heading": "The edit",
-        "newest": false,
-        "limit": 8,
-        "link_label": "Shop all bags",
-        "link": "/collections/all",
-        "products": [
-          "snatch-kp-8219-burgundy",
-          "snatch-cm8267-ivory-and-cognac",
-          "snatch-bxx012509109-cream",
-          "snatch-zara-1-cognac",
-          "snatch-m8525-burgundy",
-          "snatch-l-06431-black",
-          "snatch-gl25002-sage-green",
-          "snatch-60420-ivory-and-cognac"
-        ]
-      }
-    },
-    "finder": {
-      "type": "colour-finder",
+    "story": {
+      "type": "colour-story",
       "blocks": {
         "c1": {
           "type": "colour",
           "settings": {
-            "product": "snatch-kp-8219-burgundy"
+            "product": "snatch-kp-8219-burgundy",
+            "tint": "#4A0F1D"
           }
         },
         "c2": {
           "type": "colour",
           "settings": {
-            "product": "snatch-kp-8219-cognac"
+            "product": "snatch-kp-8219-cognac",
+            "tint": "#7A3814"
           }
         },
         "c3": {
           "type": "colour",
           "settings": {
-            "product": "snatch-kp-8219-beige-and-tan"
+            "product": "snatch-kp-8219-beige-and-tan",
+            "tint": "#B79C78"
           }
         },
         "c4": {
           "type": "colour",
           "settings": {
-            "product": "snatch-kp-8219-ivory-and-cognac"
+            "product": "snatch-kp-8219-ivory-and-cognac",
+            "tint": "#D9CDBB"
           }
         },
         "c5": {
           "type": "colour",
           "settings": {
-            "product": "snatch-kp-8219-black"
+            "product": "snatch-kp-8219-black",
+            "tint": "#171516"
           }
         }
       },
@@ -158,16 +146,48 @@
         "c5"
       ],
       "settings": {
-        "heading": "One bag, every mood.",
-        "text": "Tap a colour to see it. Add it to your bag without leaving the page.",
+        "heading": "One bag. Every mood.",
         "details_label": "View details"
+      }
+    },
+    "duo": {
+      "type": "editorial-duo",
+      "blocks": {
+        "d1": {
+          "type": "story",
+          "settings": {
+            "image": "shopify://shop_images/snatch-before-sunset-zamalek.png",
+            "label": "Zamalek, 17:12",
+            "title": "Day bags",
+            "link_label": "Shop totes",
+            "link": "/collections/all?shape=totes"
+          }
+        },
+        "d2": {
+          "type": "story",
+          "settings": {
+            "image": "shopify://shop_images/snatch-after-dark-cairo.png",
+            "label": "Nile Corniche, 21:40",
+            "title": "After dark",
+            "link_label": "Shop clutches",
+            "link": "/collections/all?shape=clutches"
+          }
+        }
+      },
+      "block_order": [
+        "d1",
+        "d2"
+      ],
+      "settings": {
+        "heading": "Day to night, Cairo."
       }
     }
   },
   "order": [
     "hero",
+    "edit",
     "shapes",
-    "new_in",
-    "finder"
+    "story",
+    "duo"
   ]
 }

@@ -1,0 +1,44 @@
+<section class="sindex" data-sindex aria-labelledby="SIndex-{{ section.id }}">
+  <header class="sindex__head">
+    <h2 class="label" id="SIndex-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+    <p class="sindex__note">{{ section.settings.note | escape }}</p>
+  </header>
+  <ol class="sindex__list" role="list">
+    {%- for block in section.blocks -%}
+      {%- assign p = block.settings.product -%}
+      <li class="sindex__row" {{ block.shopify_attributes }}>
+        <a class="sindex__link" href="{{ block.settings.link | default: routes.all_products_collection_url }}" data-sindex-link>
+          <span class="sindex__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <span class="sindex__name"><span>{{ block.settings.label | escape }}</span></span>
+          <span class="sindex__thumb stage">
+            {%- if p != blank -%}{{ p.featured_media.preview_image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 22vw, 64px', widths: '160, 300, 600', alt: '', data-sindex-img: '' }}{%- endif -%}
+          </span>
+          <span class="sindex__go" aria-hidden="true">{% render 'icon', name: 'arrow' %}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ol>
+  <div class="sindex__float stage" aria-hidden="true" data-sindex-float><img alt="" data-sindex-float-img></div>
+</section>
+{% schema %}
+{
+  "name": "Shape index",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Label", "default": "Shop by shape" },
+    { "type": "text", "id": "note", "label": "Note", "default": "Six silhouettes. Hundreds of colours." }
+  ],
+  "blocks": [
+    {
+      "type": "shape",
+      "name": "Shape",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Totes" },
+        { "type": "product", "id": "product", "label": "Preview product" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [{ "name": "Shape index", "blocks": [{ "type": "shape" }, { "type": "shape" }, { "type": "shape" }] }]
+}
+{% endschema %}

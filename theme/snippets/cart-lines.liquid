@@ -1,31 +1,29 @@
 {%- if cart.item_count == 0 -%}
   <div class="empty">
     <p class="empty__title">{{ 'cart.empty' | t }}</p>
-    <a class="btn btn--secondary" href="{{ routes.all_products_collection_url }}">{{ 'cart.empty_cta' | t }}</a>
+    <a class="btn btn--ink" href="{{ routes.all_products_collection_url }}"><span>{{ 'cart.empty_cta' | t }}</span>{% render 'icon', name: 'arrow' %}</a>
   </div>
 {%- else -%}
   <ul class="lines" role="list">
     {%- for item in cart.items -%}
       {%- capture family -%}{%- render 'product-name', title: item.product.title, part: 'family' -%}{%- endcapture -%}
       {%- capture colour -%}{%- render 'product-name', title: item.product.title, part: 'colour' -%}{%- endcapture -%}
-      <li class="line" data-line="{{ item.key }}">
+      <li class="line" data-line="{{ item.key }}" style="--i: {{ forloop.index0 }}">
         <a class="line__media stage" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
-          {%- if item.image -%}{{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+          {%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
         </a>
         <div class="line__info">
-          <div class="line__top">
-            <a class="line__title" href="{{ item.url }}">{{ family | strip }}</a>
-            <span class="line__price">{{ item.final_line_price | money }}</span>
-          </div>
-          <span class="small muted">{{ colour | strip }}{% unless item.product.has_only_default_variant %} · {{ item.variant.title }}{% endunless %}</span>
+          <a class="line__title" href="{{ item.url }}">{{ family | strip }}</a>
+          <span class="line__colour">{{ colour | strip }}{% unless item.product.has_only_default_variant %} · {{ item.variant.title }}{% endunless %}</span>
           <div class="line__row">
             <div class="qty" data-qty>
               <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.decrease' | t }}">{% render 'icon', name: 'minus' %}</button>
               <input class="qty__input" type="number" min="0" value="{{ item.quantity }}" aria-label="{{ 'products.quantity' | t }}" data-qty-input data-key="{{ item.key }}">
               <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
             </div>
-            <button type="button" class="link small" data-remove="{{ item.key }}">{{ 'cart.remove' | t }}</button>
+            <span class="line__price">{{ item.final_line_price | money }}</span>
           </div>
+          <button type="button" class="line__remove" data-remove="{{ item.key }}">{{ 'cart.remove' | t }}</button>
         </div>
       </li>
     {%- endfor -%}

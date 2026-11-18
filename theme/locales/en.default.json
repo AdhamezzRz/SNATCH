@@ -28,7 +28,10 @@
       "one": "{{ count }} colour",
       "other": "{{ count }} colours"
     },
-    "shop_all": "Shop all"
+    "shop_all": "Shop all",
+    "intro_line": "Handbags · Cairo",
+    "drag": "Drag",
+    "scroll": "Scroll"
   },
   "products": {
     "add_to_bag": "Add to bag",
@@ -54,10 +57,14 @@
     "error": "Something went wrong. Please try again.",
     "quick_add": "Add {{ title }} to bag",
     "add": "Add",
-    "colour": "Colour"
+    "colour": "Colour",
+    "zoom": "Zoom image",
+    "image_count": "{{ n }} / {{ total }}",
+    "colours_title": "Colours",
+    "also_like": "You may also like"
   },
   "cart": {
-    "title": "Your bag",
+    "title": "Bag",
     "empty": "Your bag is empty.",
     "empty_cta": "Shop new in",
     "subtotal": "Subtotal",
@@ -70,7 +77,8 @@
     },
     "updated": "Bag updated",
     "note": "Order note",
-    "view_cart": "View bag"
+    "view_cart": "View bag",
+    "continue": "Continue shopping"
   },
   "search": {
     "title": "Search",

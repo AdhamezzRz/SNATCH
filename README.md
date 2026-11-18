@@ -1,19 +1,26 @@
-# SNATCH — Shopify theme
+# SNATCH — Shopify theme ("One of One")
 
-A custom Shopify Online Store 2.0 theme for SNATCH (Cairo). Direction: **Gallery White**. It's a calm, bright store where the product photography and the SNATCH logo carry the brand.
+A custom Shopify Online Store 2.0 theme for SNATCH (Cairo), built from scratch around the brand's own logo.
 
-- `theme/` holds the theme source (layout, sections, snippets, templates, assets, config, locales).
-- `theme/DESIGN.md` is the design contract: palette, type, components and motion.
-- `dist/snatch-theme.zip` is the packaged theme, ready to upload under Online Store › Themes › Add theme › Upload zip.
+**Concept: everything opens in a Λ.** The A in the SNATCH logo has no crossbar, and that shape drives the motion:
+- The hero opens through a Λ-shaped window as you scroll.
+- The menu unfolds as a Λ.
+- Pages change with a Λ wipe, using cross-document view transitions.
+- The logo assembles letter by letter on the first visit, then flies into the header.
 
-Highlights:
-- Split hero that opens toward the side you hover.
-- Shop-by-shape rail.
-- Product cards whose colour dots swap photo, price and link in place, with one-tap quick add.
-- Colour finder that adds to the bag without leaving the homepage.
-- Collection filters by shape and colour family. Choosing a colour switches every card to that colourway.
-- Grid density toggle.
-- Product page with an "other colours" strip and a sticky mobile add-to-bag.
-- Cart drawer and predictive search.
+**Signature pieces**
+- A draggable product rail with momentum.
+- A typographic "shape index" where the bag follows your cursor.
+- A colour story where scrolling changes the bag and the room colour.
+- An editorial duo with image reveals.
+- A burgundy footer whose giant logo rises letter by letter.
+- Product cards with a wipe-up second photo, colour dots and quick add. When you add something, the photo flies into the bag.
+- A product page with a split view, colour swatches, a zoom viewer and a sticky buy bar. On mobile, the cart opens as a bottom sheet.
 
-No animation libraries. The only font is Instrument Sans (self-hosted, SIL OFL), and the logo is an inline SVG traced from the brand file.
+**Structure**
+- `theme/` holds the theme source.
+- `theme/DESIGN.md` is the design contract.
+- `dist/snatch-theme.zip` is the uploadable package.
+- `media/` holds the source photography.
+
+**Assets:** Marcellus and Instrument Sans (SIL OFL, self-hosted), Lenis for smooth desktop scrolling, and vanilla JS.

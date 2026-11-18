@@ -1,0 +1,61 @@
+{%- liquid
+  assign img = section.settings.image
+  assign img_m = section.settings.image_mobile | default: img
+-%}
+<section class="lhero" data-lhero data-header-theme="light" style="--hero-bg: {{ section.settings.bg }};">
+  <div class="lhero__sticky">
+    <div class="lhero__window" data-lhero-window>
+      <div class="lhero__media" data-lhero-media>
+        {%- if img != blank -%}
+          <picture>
+            <source media="(max-width: 749px)" srcset="{{ img_m | image_url: width: 750 }} 750w, {{ img_m | image_url: width: 1100 }} 1100w, {{ img_m | image_url: width: 1500 }} 1500w" sizes="100vw">
+            {{ img | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '1000, 1400, 1800, 2400', alt: img.alt, class: 'lhero__img' }}
+          </picture>
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'lhero__img placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="lhero__shade" aria-hidden="true"></div>
+    </div>
+
+    <h1 class="lhero__title">
+      <span class="lhero__w lhero__w--l" data-lhero-l><span class="mask"><span>{{ section.settings.word_1 | escape }}</span></span></span>
+      <span class="lhero__w lhero__w--r" data-lhero-r><span class="mask"><span>{{ section.settings.word_2 | escape }}</span></span></span>
+    </h1>
+
+    <p class="lhero__kicker" data-lhero-kicker>{{ section.settings.kicker | escape }}</p>
+    <div class="lhero__scroll" data-lhero-kicker aria-hidden="true"><span>{{ 'general.scroll' | t }}</span><i></i></div>
+
+    <div class="lhero__end" data-lhero-end>
+      <p class="lhero__line">{{ section.settings.text | escape }}</p>
+      <div class="lhero__ctas">
+        {%- if section.settings.button_label != blank -%}
+          <a class="btn btn--paper" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"><span>{{ section.settings.button_label | escape }}</span>{% render 'icon', name: 'arrow' %}</a>
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          <a class="btn btn--glass" href="{{ section.settings.button2_link }}"><span>{{ section.settings.button2_label | escape }}</span></a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Λ hero",
+  "class": "section-lhero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#4A0F1D" },
+    { "type": "text", "id": "word_1", "label": "Heading, left word", "default": "Snatch" },
+    { "type": "text", "id": "word_2", "label": "Heading, right word", "default": "the fit." },
+    { "type": "text", "id": "kicker", "label": "Small line", "default": "Handbags chosen in Cairo" },
+    { "type": "text", "id": "text", "label": "Text after the window opens", "default": "Totes, shoulder bags and clutches, chosen one by one. Every colour, ready to go." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Shop the edit" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "button2_label", "label": "Second button", "default": "All bags" },
+    { "type": "url", "id": "button2_link", "label": "Second button link", "default": "/collections/all" }
+  ],
+  "presets": [{ "name": "Λ hero" }]
+}
+{% endschema %}

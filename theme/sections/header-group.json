@@ -4,11 +4,16 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {
-        "announcement": "New pieces added every week",
-        "announcement_link": "/collections/all",
-        "menu": "snatch-main"
-      }
+      "blocks": {
+        "p0": { "type": "preview", "settings": { "product": "snatch-kp-8219-burgundy" } },
+        "p1": { "type": "preview", "settings": { "product": "snatch-cm8267-ivory-and-cognac" } },
+        "p2": { "type": "preview", "settings": { "product": "snatch-bxx012509109-cream" } },
+        "p3": { "type": "preview", "settings": { "product": "snatch-zara-1-cognac" } },
+        "p4": { "type": "preview", "settings": { "product": "snatch-m8525-burgundy" } },
+        "p5": { "type": "preview", "settings": { "product": "snatch-l-06431-black" } }
+      },
+      "block_order": ["p0", "p1", "p2", "p3", "p4", "p5"],
+      "settings": { "menu": "snatch-main" }
     }
   },
   "order": ["header"]

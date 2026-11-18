@@ -1,0 +1,76 @@
+{%- liquid
+  assign first = section.blocks.first.settings.product
+  capture fam
+    if first != blank
+      render 'product-name', title: first.title, part: 'family'
+    endif
+  endcapture
+  assign n = section.blocks.size
+-%}
+<section class="cstory" data-cstory style="--n: {{ n }}; --tint: {{ section.blocks.first.settings.tint }};" aria-labelledby="CStory-{{ section.id }}">
+  <div class="cstory__sticky">
+    <div class="cstory__bg" aria-hidden="true"></div>
+    <header class="cstory__head">
+      <h2 class="label" id="CStory-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <p class="cstory__fam">{{ fam | strip }}</p>
+    </header>
+
+    <div class="cstory__names" aria-hidden="true">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p != blank -%}
+          {%- capture col -%}{%- render 'product-name', title: p.title, part: 'colour' -%}{%- endcapture -%}
+          <span class="cstory__name{% if forloop.first %} is-on{% endif %}" data-cstory-name>{{ col | strip | default: p.title }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="cstory__plate">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p != blank -%}
+          <figure class="cstory__slide{% if forloop.first %} is-on{% endif %}" data-cstory-slide data-tint="{{ block.settings.tint }}" data-url="{{ p.url }}" data-price="{{ p.price | money | escape }}" data-variant="{{ p.selected_or_first_available_variant.id }}" data-available="{{ p.selected_or_first_available_variant.available }}" {{ block.shopify_attributes }}>
+            {{ p.featured_media.preview_image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 46vw, 90vw', widths: '600, 900, 1200, 1400', alt: p.title }}
+          </figure>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="cstory__buy">
+      <span class="cstory__price" data-cstory-price>{% if first != blank %}{{ first.price | money }}{% endif %}</span>
+      <button type="button" class="btn btn--paper" data-cstory-add>{{ 'products.add_to_bag' | t }}</button>
+      <a class="cstory__link" href="{{ first.url }}" data-cstory-link>{{ section.settings.details_label | escape }}</a>
+    </div>
+
+    <ol class="cstory__steps" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p != blank -%}
+          {%- capture col -%}{%- render 'product-name', title: p.title, part: 'colour' -%}{%- endcapture -%}
+          <li><button type="button" class="cstory__step{% if forloop.first %} is-on{% endif %}" data-cstory-step="{{ forloop.index0 }}" style="--dot: {% render 'swatch-color', name: col %}" aria-label="{{ col | strip | escape }}"></button></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Colour story",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Label", "default": "One bag. Every mood." },
+    { "type": "text", "id": "details_label", "label": "Details link", "default": "View details" }
+  ],
+  "blocks": [
+    {
+      "type": "colour",
+      "name": "Colour",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "color", "id": "tint", "label": "Background", "default": "#5E1724" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [{ "name": "Colour story", "blocks": [{ "type": "colour" }, { "type": "colour" }, { "type": "colour" }] }]
+}
+{% endschema %}

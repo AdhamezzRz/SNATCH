@@ -1,0 +1,46 @@
+{%- liquid
+  assign list = section.settings.products
+  assign c = section.settings.collection | default: collections.all
+-%}
+<section class="rail" data-rail aria-labelledby="Rail-{{ section.id }}">
+  <header class="rail__head">
+    <h2 class="t-display" id="Rail-{{ section.id }}" data-split>{{ section.settings.heading | escape }}</h2>
+    <div class="rail__tools">
+      <span class="rail__count" aria-hidden="true"><span data-rail-current>01</span> — <span data-rail-total>00</span></span>
+      <button type="button" class="rail__arrow" data-rail-prev aria-label="{{ 'general.previous' | t }}">{% render 'icon', name: 'arrow' %}</button>
+      <button type="button" class="rail__arrow" data-rail-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'arrow' %}</button>
+    </div>
+  </header>
+  <div class="rail__viewport" data-rail-viewport tabindex="0" aria-label="{{ section.settings.heading | escape }}">
+    <ul class="rail__track" role="list">
+      {%- if list != blank -%}
+        {%- for p in list -%}<li class="rail__item">{% render 'product-card', product: p %}</li>{%- endfor -%}
+      {%- else -%}
+        {%- for p in c.products limit: 10 -%}<li class="rail__item">{% render 'product-card', product: p %}</li>{%- endfor -%}
+      {%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <li class="rail__item rail__item--end">
+          <a class="rail__end" href="{{ section.settings.link | default: c.url }}">
+            <span class="rail__end-k">{{ c.products_count }}</span>
+            <span class="rail__end-t">{{ section.settings.link_label | escape }}</span>
+            {% render 'icon', name: 'arrow' %}
+          </a>
+        </li>
+      {%- endif -%}
+    </ul>
+  </div>
+  <div class="rail__bar" aria-hidden="true"><i data-rail-bar></i></div>
+</section>
+{% schema %}
+{
+  "name": "Product rail",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The edit" },
+    { "type": "product_list", "id": "products", "label": "Products", "limit": 16 },
+    { "type": "collection", "id": "collection", "label": "Or collection" },
+    { "type": "text", "id": "link_label", "label": "End card label", "default": "Every bag" },
+    { "type": "url", "id": "link", "label": "End card link" }
+  ],
+  "presets": [{ "name": "Product rail" }]
+}
+{% endschema %}

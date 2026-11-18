@@ -1,49 +1,96 @@
 {%- assign menu = linklists[section.settings.menu] -%}
-{%- if section.settings.announcement != blank -%}
-  <div class="announce">
-    {%- if section.settings.announcement_link != blank -%}
-      <a href="{{ section.settings.announcement_link }}">{{ section.settings.announcement | escape }} <span aria-hidden="true">→</span></a>
-    {%- else -%}
-      <p>{{ section.settings.announcement | escape }}</p>
-    {%- endif -%}
-  </div>
-{%- endif -%}
 <header class="header" data-header>
   <div class="header__bar">
     <div class="header__start">
-      <button type="button" class="icon-btn header__burger" data-menu-open aria-controls="MenuDrawer" aria-label="{{ 'general.menu' | t }}">
-        <span class="burger" aria-hidden="true"><i></i><i></i></span>
+      <button type="button" class="menu-btn" data-menu-open aria-expanded="false" aria-controls="SiteMenu">
+        <span class="menu-btn__lines" aria-hidden="true"><i></i><i></i></span>
+        <span class="menu-btn__label">{{ 'general.menu' | t }}</span>
       </button>
-      <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">{% render 'logo' %}</a>
+      <nav class="header__quick" aria-label="{{ 'general.shop_all' | t }}">
+        {%- for link in menu.links limit: 3 -%}<a class="hlink" href="{{ link.url }}">{{ link.title | escape }}</a>{%- endfor -%}
+      </nav>
     </div>
-    <nav class="header__nav" aria-label="{{ 'general.menu' | t }}">
-      <ul role="list">
-        {%- for link in menu.links -%}
-          <li><a class="nav-link" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
-        {%- endfor -%}
-      </ul>
-    </nav>
+    <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}" data-header-logo>{% render 'logo' %}</a>
     <div class="header__end">
-      <button type="button" class="icon-btn" data-search-open aria-label="{{ 'general.search' | t }}">{% render 'icon', name: 'search' %}</button>
+      <button type="button" class="hicon" data-search-open aria-label="{{ 'general.search' | t }}">{% render 'icon', name: 'search' %}</button>
       {%- if shop.customer_accounts_enabled -%}
-        <a class="icon-btn hide-sm" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">{% render 'icon', name: 'account' %}</a>
+        <a class="hicon hide-sm" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">{% render 'icon', name: 'account' %}</a>
       {%- endif -%}
-      <a class="icon-btn header__bag" href="{{ routes.cart_url }}" data-cart-open aria-label="{{ 'general.bag' | t }}">
-        {% render 'icon', name: 'bag' %}
-        <span class="header__count" data-cart-count {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+      <a class="hbag" href="{{ routes.cart_url }}" data-cart-open data-bag-target>
+        <span class="hbag__label">{{ 'general.bag' | t }}</span>
+        <span class="hbag__icon">{% render 'icon', name: 'bag' %}</span>
+        <span class="hbag__count" data-cart-count>{{ cart.item_count }}</span>
       </a>
     </div>
   </div>
 </header>
-{% render 'menu-drawer', menu: menu %}
+
+<div class="menu" id="SiteMenu" data-menu hidden>
+  <div class="menu__inner">
+    <div class="menu__top">
+      <span class="menu__logo">{% render 'logo-snatch' %}</span>
+      <button type="button" class="menu-close" data-menu-close>
+        <span>{{ 'general.close' | t }}</span>
+        <span class="menu-close__x" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+    <nav class="menu__nav" aria-label="{{ 'general.menu' | t }}">
+      <ol class="menu__list" role="list">
+        {%- for link in menu.links -%}
+          <li class="menu__item" style="--i: {{ forloop.index0 }}">
+            <a class="menu__link" href="{{ link.url }}" data-menu-link data-preview="{{ forloop.index0 }}"{% if link.current %} aria-current="page"{% endif %}>
+              <span class="menu__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="menu__word"><span>{{ link.title | escape }}</span></span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </nav>
+    <div class="menu__preview" aria-hidden="true">
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        <figure class="menu__pic{% if forloop.first %} is-on{% endif %}" data-menu-pic="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '30vw', widths: '450, 700, 900', alt: '' }}
+          {%- elsif p != blank -%}
+            {{ p.featured_media.preview_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '30vw', widths: '450, 700, 900', alt: '' }}
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+    <div class="menu__foot">
+      <form class="menu__search" action="{{ routes.search_url }}" method="get" role="search">
+        <input type="hidden" name="type" value="product">
+        <label class="sr-only" for="MenuSearch">{{ 'search.placeholder' | t }}</label>
+        {% render 'icon', name: 'search' %}
+        <input id="MenuSearch" type="search" name="q" placeholder="{{ 'search.placeholder' | t }}" autocomplete="off">
+      </form>
+      <div class="menu__links">
+        {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}">{{ 'general.account' | t }}</a>{%- endif -%}
+        {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
+        {%- if settings.social_whatsapp != blank -%}<a href="{{ settings.social_whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
 {% schema %}
 {
   "name": "Header",
   "class": "section-header",
   "settings": [
-    { "type": "text", "id": "announcement", "label": "Announcement", "default": "New pieces added every week" },
-    { "type": "url", "id": "announcement_link", "label": "Announcement link", "default": "/collections/all" },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
-  ]
+  ],
+  "blocks": [
+    {
+      "type": "preview",
+      "name": "Menu preview image",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product photo" },
+        { "type": "image_picker", "id": "image", "label": "Or image" }
+      ]
+    }
+  ],
+  "max_blocks": 8
 }
 {% endschema %}
