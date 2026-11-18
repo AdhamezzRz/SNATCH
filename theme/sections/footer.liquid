@@ -41,6 +41,7 @@
   <div class="footer__base">
     <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
     <span>{{ section.settings.tagline | escape }}</span>
+    {%- if section.settings.credit_label != blank -%}<span class="footer__credit">{{ section.settings.credit_text | escape }} <a href="{{ section.settings.credit_url | default: 'https://najmarketing.co' }}" target="_blank" rel="noopener">{{ section.settings.credit_label | escape }}</a></span>{%- endif -%}
     <ul class="footer__pay" role="list">
       {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'pay-icon' }}</li>{%- endfor -%}
     </ul>
@@ -54,7 +55,10 @@
     { "type": "text", "id": "heading", "label": "Newsletter heading", "default": "First to know." },
     { "type": "text", "id": "text", "label": "Newsletter text", "default": "New styles and restocked colours, straight to your inbox. Nothing else." },
     { "type": "text", "id": "social_title", "label": "Last column title", "default": "Info" },
-    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Snatch the fit." }
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Snatch the fit." },
+    { "type": "text", "id": "credit_text", "label": "Credit text", "default": "Powered by" },
+    { "type": "text", "id": "credit_label", "label": "Credit name", "default": "najmarketing.co" },
+    { "type": "text", "id": "credit_url", "label": "Credit link", "default": "https://najmarketing.co" }
   ],
   "blocks": [
     {

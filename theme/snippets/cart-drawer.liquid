@@ -14,6 +14,7 @@
         <span class="total__amount" data-cart-total>{{ cart.total_price | money }}</span>
       </div>
       <p class="small muted">{{ 'cart.taxes_note' | t }}</p>
+      {%- if settings.cod_note != blank -%}<p class="cod">{% render 'icon', name: 'cash' %}<span>{{ settings.cod_note | escape }}</span></p>{%- endif -%}
       <form action="{{ routes.cart_url }}" method="post">
         <button type="submit" name="checkout" class="btn btn--wine btn--block"><span>{{ 'cart.checkout' | t }}</span>{% render 'icon', name: 'arrow' %}</button>
       </form>

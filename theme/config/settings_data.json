@@ -12,7 +12,8 @@
     "page_transitions": true,
     "group_colorways": true,
     "quick_add": true,
-    "show_dynamic_checkout": true
+    "show_dynamic_checkout": false,
+    "cod_note": "Cash on delivery available"
   },
   "presets": {}
 }

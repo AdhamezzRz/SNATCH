@@ -93,6 +93,7 @@
         {%- if settings.show_dynamic_checkout -%}
           <div class="pdp__express">{{ form | payment_button }}</div>
         {%- endif -%}
+        {%- if settings.cod_note != blank -%}<p class="cod">{% render 'icon', name: 'cash' %}<span>{{ settings.cod_note | escape }}</span></p>{%- endif -%}
         <p class="form-err" role="alert" data-form-error hidden></p>
       {%- endform -%}
 

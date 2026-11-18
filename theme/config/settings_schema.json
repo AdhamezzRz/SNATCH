@@ -39,7 +39,8 @@
     "settings": [
       { "type": "checkbox", "id": "group_colorways", "label": "Group colourways into one card", "info": "Products named like \"Style - Colour\" show as one card with colour dots.", "default": true },
       { "type": "checkbox", "id": "quick_add", "label": "Quick add on product cards", "default": true },
-      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Express checkout buttons", "default": true }
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Express checkout buttons (PayPal, Shop Pay)", "default": false },
+      { "type": "text", "id": "cod_note", "label": "Cash on delivery note", "info": "Shown under Add to bag and in the cart. Leave empty to hide.", "default": "Cash on delivery available" }
     ]
   },
   {

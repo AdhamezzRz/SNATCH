@@ -6,10 +6,11 @@
       <form class="cartpage__sum" action="{{ routes.cart_url }}" method="post">
         <div class="total"><span class="label">{{ 'cart.subtotal' | t }}</span><span class="total__amount" data-cart-total>{{ cart.total_price | money }}</span></div>
         <p class="small muted">{{ 'cart.taxes_note' | t }}</p>
+      {%- if settings.cod_note != blank -%}<p class="cod">{% render 'icon', name: 'cash' %}<span>{{ settings.cod_note | escape }}</span></p>{%- endif -%}
         <label class="label" for="CartNote">{{ 'cart.note' | t }}</label>
         <textarea id="CartNote" class="field" name="note" rows="3">{{ cart.note }}</textarea>
         <button type="submit" name="checkout" class="btn btn--primary btn--block"><span class="btn__label">{{ 'cart.checkout' | t }}</span>{% render 'icon', name: 'arrow' %}</button>
-        {%- if additional_checkout_buttons -%}<div class="cartpage__express">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+        {%- if additional_checkout_buttons and settings.show_dynamic_checkout -%}<div class="cartpage__express">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
       </form>
     {%- endif -%}
   </div>
