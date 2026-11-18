@@ -634,7 +634,7 @@
         steps.forEach((s, k) => s.classList.toggle('is-on', k === i));
         const s = slides[i];
         sec.style.setProperty('--tint', s.dataset.tint);
-        sec.style.setProperty('--fg', isDark(s.dataset.tint) ? 'var(--paper)' : 'var(--ink)');
+        sec.style.setProperty('--cfg', isDark(s.dataset.tint) ? 'var(--paper)' : 'var(--ink)');
         if (price) price.textContent = s.dataset.price || '';
         if (link) link.href = s.dataset.url;
         if (add) { add.disabled = s.dataset.available !== 'true'; add.dataset.variant = s.dataset.variant; }
