@@ -1,4 +1,4 @@
-{%- comment -%} Accepts: product, prefix_from (bool) {%- endcomment -%}
+{%- comment -%} Accepts: product {%- endcomment -%}
 {%- liquid
   assign target = product.selected_or_first_available_variant
   assign compare = target.compare_at_price
@@ -13,9 +13,6 @@
     <span class="price__now">{{ target.price | money }}</span>
     <span class="sr-only">{{ 'products.regular_price' | t }}</span>
     <s class="price__was">{{ compare | money }}</s>
-  {%- elsif prefix_from and product.price_varies -%}
-    {%- assign price_min = product.price_min | money -%}
-    <span class="price__now">{{ 'products.from' | t: price: price_min }}</span>
   {%- else -%}
     <span class="price__now">{{ target.price | money }}</span>
   {%- endif -%}

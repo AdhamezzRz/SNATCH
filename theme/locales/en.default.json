@@ -23,7 +23,12 @@
       "other": "{{ count }} colourways"
     },
     "page": "Page {{ page }}",
-    "back_to_top": "Back to top"
+    "back_to_top": "Back to top",
+    "colours": {
+      "one": "{{ count }} colour",
+      "other": "{{ count }} colours"
+    },
+    "shop_all": "Shop all"
   },
   "products": {
     "add_to_bag": "Add to bag",
@@ -46,12 +51,15 @@
     "view_product": "View {{ title }}",
     "gallery": "Product images",
     "image_n": "Image {{ n }} of {{ total }}",
-    "error": "Something went wrong. Please try again."
+    "error": "Something went wrong. Please try again.",
+    "quick_add": "Add {{ title }} to bag",
+    "add": "Add",
+    "colour": "Colour"
   },
   "cart": {
     "title": "Your bag",
-    "empty": "Your bag is empty. Nothing snatched yet.",
-    "empty_cta": "Enter the vault",
+    "empty": "Your bag is empty.",
+    "empty_cta": "Shop new in",
     "subtotal": "Subtotal",
     "taxes_note": "Taxes and shipping are calculated at checkout.",
     "checkout": "Checkout",
@@ -66,25 +74,34 @@
   },
   "search": {
     "title": "Search",
-    "placeholder": "Search the vault",
+    "placeholder": "Search bags, colours, styles",
     "results_for": "Results for “{{ terms }}”",
     "no_results": "Nothing matches “{{ terms }}”. Try a colour or a silhouette.",
     "products": "Products",
     "submit": "Search",
-    "suggestions": "Try: tote, burgundy, clutch, crossbody"
+    "suggestions": "Try: tote, burgundy, clutch, crossbody",
+    "popular": "Popular searches",
+    "terms": "Tote, Crossbody, Clutch, Black, Burgundy, Cognac"
   },
   "collections": {
     "all": "All",
     "sort_by": "Sort",
     "filter": "Silhouette",
     "empty": "This collection is empty for now.",
-    "load_more": "Load more"
+    "load_more": "Load more",
+    "results": "{{ count }} styles",
+    "shape": "Shape",
+    "colour": "Colour",
+    "clear": "Clear",
+    "density": "Grid size",
+    "large": "Larger images",
+    "small": "More per row"
   },
   "newsletter": {
     "label": "Email",
     "placeholder": "Your email",
     "submit": "Join",
-    "success": "You're on the list."
+    "success": "Thanks — you're on the list."
   },
   "customer": {
     "login": "Sign in",
@@ -113,7 +130,7 @@
     "edit": "Edit"
   },
   "password": {
-    "title": "The vault opens soon",
+    "title": "Opening soon",
     "enter": "Enter with password",
     "submit": "Enter"
   },
@@ -125,5 +142,17 @@
   },
   "accessibility": {
     "unit_price_separator": "per"
+  },
+  "colours": {
+    "black": "Black",
+    "neutral": "Ivory & cream",
+    "brown": "Tan & brown",
+    "wine": "Burgundy & red",
+    "pink": "Pink",
+    "blue": "Blue",
+    "green": "Green",
+    "grey": "Grey & silver",
+    "gold": "Gold",
+    "print": "Prints"
   }
 }

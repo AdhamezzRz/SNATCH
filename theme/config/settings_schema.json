@@ -1,8 +1,8 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "SNATCH After Hours",
-    "theme_version": "1.0.0",
+    "theme_name": "SNATCH",
+    "theme_version": "2.0.0",
     "theme_author": "SNATCH",
     "theme_documentation_url": "https://github.com/AdhamezzRz/SNATCH",
     "theme_support_url": "https://github.com/AdhamezzRz/SNATCH"
@@ -10,38 +10,34 @@
   {
     "name": "Brand",
     "settings": [
-      { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in SNATCH wordmark." },
-      { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 260, "step": 4, "unit": "px", "default": 132 },
+      { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in SNATCH logo." },
+      { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 220, "step": 4, "unit": "px", "default": 124 },
       { "type": "image_picker", "id": "favicon", "label": "Favicon" }
     ]
   },
   {
     "name": "Colors",
     "settings": [
-      { "type": "header", "content": "Palette" },
-      { "type": "color", "id": "color_void", "label": "Void (page background)", "default": "#0B0908" },
-      { "type": "color", "id": "color_ink", "label": "Ink (raised surfaces)", "default": "#161110" },
-      { "type": "color", "id": "color_bone", "label": "Bone (text on dark)", "default": "#EFE8DE" },
-      { "type": "color", "id": "color_ash", "label": "Ash (secondary text)", "default": "#A39A90" },
-      { "type": "color", "id": "color_oxblood", "label": "Oxblood (accent)", "default": "#7A1626" },
-      { "type": "color", "id": "color_brass", "label": "Brass (hairlines & details)", "default": "#B89A6A" },
-      { "type": "color", "id": "color_lightbox", "label": "Lightbox (product image stage)", "default": "#ECE7E1" }
-    ]
-  },
-  {
-    "name": "Motion",
-    "settings": [
-      { "type": "checkbox", "id": "preloader", "label": "Show opening curtain", "info": "Plays once per visit.", "default": true },
-      { "type": "checkbox", "id": "smooth_scroll", "label": "Smooth scrolling", "default": true },
-      { "type": "checkbox", "id": "page_transitions", "label": "Cross-page transitions", "default": true },
-      { "type": "checkbox", "id": "grain", "label": "Film grain overlay", "default": true }
+      { "type": "color", "id": "color_paper", "label": "Background", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_stage", "label": "Product image background", "default": "#F4F3F1" },
+      { "type": "color", "id": "color_ink", "label": "Text and buttons", "default": "#111111" },
+      { "type": "color", "id": "color_graphite", "label": "Secondary text", "default": "#6A6763" },
+      { "type": "color", "id": "color_line", "label": "Lines and borders", "default": "#E7E4E0" },
+      { "type": "color", "id": "color_wine", "label": "Accent", "default": "#5E1724" }
     ]
   },
   {
     "name": "Products",
     "settings": [
-      { "type": "checkbox", "id": "group_colorways", "label": "Group colourways into one card", "info": "Products named like \"Style - Colour\" are shown as one card with colour dots.", "default": true },
+      { "type": "checkbox", "id": "group_colorways", "label": "Group colourways into one card", "info": "Products named like \"Style - Colour\" show as one card with colour dots.", "default": true },
+      { "type": "checkbox", "id": "quick_add", "label": "Show quick add on product cards", "default": true },
       { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show express checkout buttons", "default": true }
+    ]
+  },
+  {
+    "name": "Motion",
+    "settings": [
+      { "type": "checkbox", "id": "page_transitions", "label": "Smooth page transitions", "default": true }
     ]
   },
   {

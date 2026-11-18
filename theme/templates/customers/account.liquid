@@ -1,6 +1,6 @@
 <section class="auth auth--wide">
   <h1 class="t-display">{{ 'general.account' | t }}</h1>
-  <p><a class="t-label" href="{{ routes.account_logout_url }}">{{ 'customer.logout' | t }}</a> · <a class="t-label" href="{{ routes.account_addresses_url }}">{{ 'customer.addresses' | t }}</a></p>
+  <p><a class="label" href="{{ routes.account_logout_url }}">{{ 'customer.logout' | t }}</a> · <a class="label" href="{{ routes.account_addresses_url }}">{{ 'customer.addresses' | t }}</a></p>
   <h2 class="t-h3">{{ 'customer.orders' | t }}</h2>
   {%- if customer.orders.size == 0 -%}
     <p>{{ 'customer.no_orders' | t }}</p>

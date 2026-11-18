@@ -1,21 +1,21 @@
 <section class="auth">
   <h1 class="t-display">{{ 'customer.login' | t }}</h1>
   {%- form 'customer_login', class: 'auth__form' -%}
-    {%- if form.errors -%}<p class="form-err t-mono" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
-    <label class="t-label" for="LoginEmail">{{ 'customer.email' | t }}</label>
+    {%- if form.errors -%}<p class="form-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label class="label" for="LoginEmail">{{ 'customer.email' | t }}</label>
     <input class="field" id="LoginEmail" type="email" name="customer[email]" autocomplete="email" required>
-    <label class="t-label" for="LoginPassword">{{ 'customer.password' | t }}</label>
+    <label class="label" for="LoginPassword">{{ 'customer.password' | t }}</label>
     <input class="field" id="LoginPassword" type="password" name="customer[password]" autocomplete="current-password" required>
     <button class="btn btn--primary" type="submit"><span class="btn__label">{{ 'customer.login' | t }}</span></button>
-    <a class="t-label" href="#recover">{{ 'customer.forgot' | t }}</a>
-    <a class="t-label" href="{{ routes.account_register_url }}">{{ 'customer.register' | t }}</a>
+    <a class="label" href="#recover">{{ 'customer.forgot' | t }}</a>
+    <a class="label" href="{{ routes.account_register_url }}">{{ 'customer.register' | t }}</a>
   {%- endform -%}
   <div id="recover">
     {%- form 'recover_customer_password', class: 'auth__form' -%}
-      {%- if form.posted_successfully? -%}<p class="t-mono" role="status">OK</p>{%- endif -%}
-      <label class="t-label" for="RecoverEmail">{{ 'customer.email' | t }}</label>
+      {%- if form.posted_successfully? -%}<p class="small muted" role="status">OK</p>{%- endif -%}
+      <label class="label" for="RecoverEmail">{{ 'customer.email' | t }}</label>
       <input class="field" id="RecoverEmail" type="email" name="email" autocomplete="email" required>
-      <button class="btn btn--ghost" type="submit"><span class="btn__label">{{ 'customer.reset' | t }}</span></button>
+      <button class="btn btn--secondary" type="submit"><span class="btn__label">{{ 'customer.reset' | t }}</span></button>
     {%- endform -%}
   </div>
 </section>

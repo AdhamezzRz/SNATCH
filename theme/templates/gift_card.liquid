@@ -9,12 +9,12 @@
   {{ content_for_header }}
 </head>
 <body>
-  <main class="auth">
-    {% render 'wordmark', class: 'pw__mark' %}
+  <main class="auth auth--center">
+    {% render 'logo-snatch', class: 'pw__logo' %}
     <h1 class="t-display">{{ gift_card.initial_value | money }}</h1>
-    <p class="t-label">{{ 'gift_card.code' | t }}</p>
-    <p class="t-h3 t-mono">{{ gift_card.code | format_code }}</p>
-    {%- if gift_card.expired -%}<p class="t-mono">{{ 'gift_card.expired' | t }}</p>{%- endif -%}
+    <p class="label">{{ 'gift_card.code' | t }}</p>
+    <p class="t-h3">{{ gift_card.code | format_code }}</p>
+    {%- if gift_card.expired -%}<p class="small muted">{{ 'gift_card.expired' | t }}</p>{%- endif -%}
     <p><a class="btn btn--primary" href="{{ shop.url }}"><span class="btn__label">{{ shop.name }}</span></a></p>
   </main>
 </body>

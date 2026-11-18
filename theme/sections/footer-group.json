@@ -5,15 +5,14 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu_main": { "type": "menu", "settings": { "title": "The vault", "menu": "main-menu" } },
+        "menu_main": { "type": "menu", "settings": { "title": "Shop", "menu": "snatch-main" } },
         "menu_footer": { "type": "menu", "settings": { "title": "Help", "menu": "footer" } }
       },
       "block_order": ["menu_main", "menu_footer"],
       "settings": {
-        "heading": "Get the after-hours list.",
-        "text": "New pieces go under the light first for the list. No noise, just the drop.",
-        "social_title": "Elsewhere",
-        "tagline": "Cairo · After hours"
+        "text": "Handbags, edited in Cairo.",
+        "heading": "Get new arrivals first",
+        "social_title": "Info"
       }
     }
   },

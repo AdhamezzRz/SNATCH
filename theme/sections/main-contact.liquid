@@ -1,16 +1,16 @@
 <section class="prose-page">
-  <h1 class="t-display prose-page__title" data-reveal>{{ page.title | escape }}</h1>
+  <h1 class="t-display prose-page__title">{{ page.title | escape }}</h1>
   {%- if page.content != blank -%}<div class="rte prose">{{ page.content }}</div>{%- endif -%}
   {%- form 'contact', class: 'contact' -%}
-    {%- if form.posted_successfully? -%}<p class="t-mono" role="status">{{ section.settings.success | escape }}</p>{%- endif -%}
-    {%- if form.errors -%}<p class="t-mono form-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
-    <label class="t-label" for="ContactName">{{ section.settings.name_label | escape }}</label>
+    {%- if form.posted_successfully? -%}<p class="small muted" role="status">{{ section.settings.success | escape }}</p>{%- endif -%}
+    {%- if form.errors -%}<p class="form-err" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label class="label" for="ContactName">{{ section.settings.name_label | escape }}</label>
     <input class="field" id="ContactName" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
-    <label class="t-label" for="ContactEmail">{{ 'customer.email' | t }}</label>
+    <label class="label" for="ContactEmail">{{ 'customer.email' | t }}</label>
     <input class="field" id="ContactEmail" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
-    <label class="t-label" for="ContactPhone">{{ section.settings.phone_label | escape }}</label>
+    <label class="label" for="ContactPhone">{{ section.settings.phone_label | escape }}</label>
     <input class="field" id="ContactPhone" type="tel" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}">
-    <label class="t-label" for="ContactBody">{{ section.settings.message_label | escape }}</label>
+    <label class="label" for="ContactBody">{{ section.settings.message_label | escape }}</label>
     <textarea class="field" id="ContactBody" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
     <button class="btn btn--primary" type="submit"><span class="btn__label">{{ section.settings.button | escape }}</span>{% render 'icon', name: 'arrow' %}</button>
   {%- endform -%}

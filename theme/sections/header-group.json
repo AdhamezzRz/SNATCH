@@ -5,11 +5,9 @@
     "header": {
       "type": "header",
       "settings": {
-        "menu": "main-menu",
-        "overlay": true,
-        "shop_label": "Shop",
-        "shop_link": "/collections/all",
-        "menu_note": "Lit one by one. Gone when they're gone."
+        "announcement": "New pieces added every week",
+        "announcement_link": "/collections/all",
+        "menu": "snatch-main"
       }
     }
   },

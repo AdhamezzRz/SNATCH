@@ -6,15 +6,18 @@
   capture colour
     render 'product-name', title: product.title, part: 'colour'
   endcapture
+  capture shape
+    render 'silhouette', name: family
+  endcapture
   assign family = family | strip
   assign colour = colour | strip
-  assign media_count = product.media.size
+  assign shape = shape | strip
 -%}
-<section class="pdp" data-pdp data-family="{{ family | escape }}" data-product-id="{{ product.id }}">
+<section class="pdp" data-pdp data-family="{{ family | escape }}">
   <div class="pdp__gallery" aria-label="{{ 'products.gallery' | t }}">
     <ul class="pdp__media-list" role="list" data-pdp-media>
       {%- for media in product.media -%}
-        <li class="pdp__media lightbox" {% if forloop.first %}style="view-transition-name: p-{{ product.id }}"{% endif %}>
+        <li class="pdp__media stage" {% if forloop.first %}style="view-transition-name: p-{{ product.id }}"{% endif %}>
           {%- case media.media_type -%}
             {%- when 'image' -%}
               {%- liquid
@@ -26,7 +29,7 @@
                 endif
                 assign m_alt = media.alt | default: product.title
               -%}
-              {{ media | image_url: width: 2000 | image_tag: loading: m_loading, sizes: '(min-width: 990px) 58vw, 100vw', widths: '600, 900, 1200, 1600, 2000', alt: m_alt, class: 'pdp__img', fetchpriority: m_priority }}
+              {{ media | image_url: width: 2000 | image_tag: loading: m_loading, sizes: '(min-width: 990px) 55vw, 100vw', widths: '600, 900, 1200, 1600, 2000', alt: m_alt, fetchpriority: m_priority }}
             {%- when 'video' -%}
               {{ media | video_tag: controls: true, muted: true, playsinline: true, image_size: '1200x' }}
             {%- when 'external_video' -%}
@@ -34,28 +37,29 @@
             {%- else -%}
               {{ media | media_tag }}
           {%- endcase -%}
-          <span class="pdp__count t-mono" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }} / {{ media_count | prepend: '0' | slice: -2, 2 }}</span>
         </li>
       {%- else -%}
-        <li class="pdp__media lightbox">{{ 'product-1' | placeholder_svg_tag: 'pdp__img' }}</li>
+        <li class="pdp__media stage">{{ 'product-1' | placeholder_svg_tag }}</li>
       {%- endfor -%}
     </ul>
+    {%- if product.media.size > 1 -%}
+      <div class="pdp__dots" aria-hidden="true">{%- for media in product.media -%}<i{% if forloop.first %} class="is-active"{% endif %}></i>{%- endfor -%}</div>
+    {%- endif -%}
   </div>
 
   <div class="pdp__info">
     <div class="pdp__sticky">
-      <nav class="crumbs t-mono" aria-label="Breadcrumb">
+      <nav class="crumbs small" aria-label="Breadcrumb">
         <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a><span aria-hidden="true">/</span>
-        {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">{{ 'collections.all' | t }}</a>{%- endif -%}
+        <a href="{{ routes.all_products_collection_url }}?shape={{ shape | handleize }}">{{ shape }}</a>
       </nav>
-      {%- if current.sku != blank -%}<p class="pdp__lot t-mono" data-sku>{{ 'products.lot' | t }} · {{ current.sku }}</p>{%- endif -%}
-      <h1 class="pdp__title t-h2">{{ family }}</h1>
-      {%- if colour != blank -%}<p class="pdp__colour"><span class="dot dot--md" style="--dot: {% render 'swatch-color', name: colour %}" aria-hidden="true"></span>{{ colour }}</p>{%- endif -%}
+      <h1 class="pdp__title">{{ family }}</h1>
+      {%- if colour != blank -%}<p class="pdp__colour muted">{{ colour }}</p>{%- endif -%}
       <div class="pdp__price">{% render 'price', product: product %}</div>
 
       <div class="pdp__siblings" data-siblings hidden>
-        <p class="t-label">{{ 'products.other_colourways' | t }} {{ family }}</p>
-        <ul class="pdp__sibling-list" role="list" data-sibling-list></ul>
+        <p class="label">{{ 'products.colour' | t }}: <span class="muted">{{ colour }}</span></p>
+        <ul class="sibs" role="list" data-sibling-list></ul>
       </div>
 
       {%- form 'product', product, class: 'pdp__form', data-product-form: '', novalidate: 'novalidate' -%}
@@ -63,7 +67,7 @@
         {%- unless product.has_only_default_variant -%}
           {%- for option in product.options_with_values -%}
             <fieldset class="opt" data-option="{{ forloop.index0 }}">
-              <legend class="t-label">{{ option.name }}</legend>
+              <legend class="label">{{ option.name }}</legend>
               <div class="opt__values">
                 {%- for value in option.values -%}
                   <label class="opt__pill">
@@ -83,41 +87,40 @@
             <input class="qty__input" type="number" name="quantity" min="1" value="1" aria-label="{{ 'products.quantity' | t }}" data-qty-input>
             <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
           </div>
-          <button type="submit" name="add" class="btn btn--primary btn--grow" data-add {% unless current.available %}disabled{% endunless %} data-magnetic>
-            <span class="btn__label" data-add-label>{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
-            <span class="btn__price t-mono" data-add-price>{{ current.price | money }}</span>
+          <button type="submit" name="add" class="btn btn--primary btn--grow" data-add {% unless current.available %}disabled{% endunless %}>
+            <span data-add-label>{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
           </button>
         </div>
         {%- if settings.show_dynamic_checkout -%}
           <div class="pdp__express">{{ form | payment_button }}</div>
         {%- endif -%}
-        <p class="pdp__error t-mono" role="alert" data-form-error hidden></p>
+        <p class="form-err" role="alert" data-form-error hidden></p>
       {%- endform -%}
 
       <div class="acc">
         {%- if product.description != blank -%}
           <details class="acc__item" open>
-            <summary class="acc__sum t-label">{{ 'products.details' | t }}<span class="acc__icon" aria-hidden="true"></span></summary>
+            <summary class="acc__sum">{{ 'products.details' | t }}<span class="acc__icon" aria-hidden="true"></span></summary>
             <div class="acc__body rte">{{ product.description }}</div>
           </details>
         {%- endif -%}
         {%- for block in section.blocks -%}
           {%- if block.settings.title != blank -%}
             <details class="acc__item" {{ block.shopify_attributes }}>
-              <summary class="acc__sum t-label">{{ block.settings.title | escape }}<span class="acc__icon" aria-hidden="true"></span></summary>
+              <summary class="acc__sum">{{ block.settings.title | escape }}<span class="acc__icon" aria-hidden="true"></span></summary>
               <div class="acc__body rte">{{ block.settings.content }}{%- if block.settings.page != blank -%}{{ block.settings.page.content }}{%- endif -%}</div>
             </details>
           {%- endif -%}
         {%- endfor -%}
       </div>
+      {%- if current.sku != blank -%}<p class="small muted pdp__sku">SKU {{ current.sku }}</p>{%- endif -%}
     </div>
   </div>
 
   <div class="pdp__bar" data-pdp-bar aria-hidden="true">
-    <span class="pdp__bar-name">{{ family }}<span class="t-mono">{{ colour }}</span></span>
-    <button type="button" class="btn btn--primary btn--sm" data-bar-add tabindex="-1" {% unless current.available %}disabled{% endunless %}>
-      <span class="btn__label">{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
-      <span class="btn__price t-mono">{{ current.price | money }}</span>
+    <div class="pdp__bar-info"><strong>{{ family }}</strong><span class="small muted">{{ current.price | money }}</span></div>
+    <button type="button" class="btn btn--primary" data-bar-add tabindex="-1" {% unless current.available %}disabled{% endunless %}>
+      {%- if current.available -%}{{ 'products.add_to_bag' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
     </button>
   </div>
 </section>
@@ -141,7 +144,6 @@
     }
   }
 </script>
-
 {% schema %}
 {
   "name": "Product",

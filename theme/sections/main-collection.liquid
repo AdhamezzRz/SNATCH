@@ -1,38 +1,52 @@
 {%- paginate collection.products by section.settings.per_page -%}
 <section class="plp" data-plp>
   <header class="plp__head">
-    <div class="plp__title-wrap">
-      <p class="t-mono plp__count">{{ 'general.pieces' | t: count: collection.products_count }}</p>
-      <h1 class="t-mega plp__title" data-reveal>{{ collection.title | escape }}</h1>
-    </div>
-    {%- if collection.description != blank -%}<div class="plp__desc rte">{{ collection.description }}</div>{%- endif -%}
+    <h1 class="t-display" data-plp-title data-default="{{ collection.title | escape }}">{{ collection.title | escape }}</h1>
+    <p class="muted small" data-plp-count>{{ 'general.pieces' | t: count: collection.products_count }}</p>
   </header>
 
-  <div class="plp__tools" data-plp-tools>
-    <div class="chips" role="group" aria-label="{{ 'collections.filter' | t }}" data-chips>
-      <button type="button" class="chip is-active" aria-pressed="true" data-chip="all">{{ 'collections.all' | t }}</button>
+  <div class="toolbar" data-toolbar>
+    <div class="toolbar__row">
+      <div class="chips" role="group" aria-label="{{ 'collections.shape' | t }}" data-shape-chips>
+        <button type="button" class="chip is-active" aria-pressed="true" data-shape="all">{{ 'collections.all' | t }}</button>
+      </div>
+      <div class="toolbar__end">
+        <label class="sr-only" for="SortBy">{{ 'collections.sort_by' | t }}</label>
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <select id="SortBy" class="select" data-sort>
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+        <div class="density" role="group" aria-label="{{ 'collections.density' | t }}">
+          <button type="button" class="icon-btn" data-density="2" aria-pressed="false" aria-label="{{ 'collections.large' | t }}"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="16" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="13" y="4" width="7" height="16" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+          <button type="button" class="icon-btn is-active" data-density="4" aria-pressed="true" aria-label="{{ 'collections.small' | t }}"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="3.5" height="16" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="8.5" y="4" width="3.5" height="16" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="14" y="4" width="3.5" height="16" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="19.5" y="4" width="1.5" height="16" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+        </div>
+      </div>
     </div>
-    <div class="sort">
-      <label class="t-label" for="SortBy">{{ 'collections.sort_by' | t }}</label>
-      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-      <select id="SortBy" class="sort__select" data-sort>
-        {%- for option in collection.sort_options -%}
-          <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
-        {%- endfor -%}
-      </select>
+    <div class="colours" role="group" aria-label="{{ 'collections.colour' | t }}" data-colour-filter>
+      {%- assign fams = 'black,neutral,brown,wine,pink,blue,green,grey,gold,print' | split: ',' -%}
+      {%- for f in fams -%}
+        {%- capture key -%}colours.{{ f }}{%- endcapture -%}
+        <button type="button" class="cfilter" data-colour="{{ f }}" aria-pressed="false" title="{{ key | t }}">
+          <span class="cfilter__dot cfilter__dot--{{ f }}" aria-hidden="true"></span><span class="cfilter__name">{{ key | t }}</span>
+        </button>
+      {%- endfor -%}
+      <button type="button" class="link small" data-clear hidden>{{ 'collections.clear' | t }}</button>
     </div>
   </div>
 
   {%- if collection.products.size > 0 -%}
-    <div class="grid grid--4 grid--rhythm" data-plp-grid data-stagger>
-      {% render 'family-grid', products: collection.products, rhythm: true, eager_count: 4 %}
+    <div class="grid" data-plp-grid>
+      {% render 'family-grid', products: collection.products, eager_count: 4 %}
     </div>
+    <p class="plp__none muted" data-plp-none hidden>{{ 'collections.empty' | t }}</p>
   {%- else -%}
-    <p class="plp__empty t-h3">{{ 'collections.empty' | t }}</p>
+    <p class="plp__none muted">{{ 'collections.empty' | t }}</p>
   {%- endif -%}
 
   {%- if paginate.pages > 1 -%}
-    <nav class="pager t-mono" aria-label="Pagination">
+    <nav class="pager" aria-label="Pagination">
       {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="pager__a">&larr;</a>{%- endif -%}
       {%- for part in paginate.parts -%}
         {%- if part.is_link -%}<a class="pager__a" href="{{ part.url }}">{{ part.title }}</a>{%- elsif part.title == paginate.current_page -%}<span class="pager__a is-current" aria-current="page">{{ part.title }}</span>{%- else -%}<span class="pager__a">{{ part.title }}</span>{%- endif -%}

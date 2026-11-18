@@ -1,0 +1,27 @@
+{%- comment -%} Accepts: menu (linklist) {%- endcomment -%}
+<dialog class="drawer drawer--left" id="MenuDrawer" aria-label="{{ 'general.menu' | t }}" data-menu-drawer>
+  <div class="drawer__panel">
+    <header class="drawer__head">
+      {% render 'logo-snatch', class: 'drawer__logo' %}
+      <button type="button" class="icon-btn" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </header>
+    <nav class="drawer__body mnav" aria-label="{{ 'general.menu' | t }}">
+      <ul role="list">
+        {%- for link in menu.links -%}
+          <li>
+            <a class="mnav__link" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+            {%- if link.links.size > 0 -%}
+              <ul role="list" class="mnav__sub">
+                {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>{%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+    <footer class="drawer__foot mnav__foot">
+      {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}">{% render 'icon', name: 'account' %}{{ 'general.account' | t }}</a>{%- endif -%}
+      <button type="button" data-search-open>{% render 'icon', name: 'search' %}{{ 'general.search' | t }}</button>
+    </footer>
+  </div>
+</dialog>

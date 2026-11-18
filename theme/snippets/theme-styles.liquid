@@ -1,40 +1,18 @@
 <style>
   @font-face {
-    font-family: 'Bodoni Moda';
-    src: url({{ 'bodoni-moda.woff2' | asset_url }}) format('woff2-variations'), url({{ 'bodoni-moda.woff2' | asset_url }}) format('woff2');
-    font-weight: 400 900;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Bodoni Moda';
-    src: url({{ 'bodoni-moda-italic.woff2' | asset_url }}) format('woff2-variations'), url({{ 'bodoni-moda-italic.woff2' | asset_url }}) format('woff2');
-    font-weight: 400 900;
-    font-style: italic;
-    font-display: swap;
-  }
-  @font-face {
     font-family: 'Instrument Sans';
     src: url({{ 'instrument-sans.woff2' | asset_url }}) format('woff2-variations'), url({{ 'instrument-sans.woff2' | asset_url }}) format('woff2');
     font-weight: 400 700;
     font-style: normal;
     font-display: swap;
   }
-  @font-face {
-    font-family: 'JetBrains Mono';
-    src: url({{ 'jetbrains-mono.woff2' | asset_url }}) format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
   :root {
-    --void: {{ settings.color_void }};
+    --paper: {{ settings.color_paper }};
+    --stage: {{ settings.color_stage }};
     --ink: {{ settings.color_ink }};
-    --bone: {{ settings.color_bone }};
-    --ash: {{ settings.color_ash }};
-    --ox: {{ settings.color_oxblood }};
-    --brass: {{ settings.color_brass }};
-    --lightbox: {{ settings.color_lightbox }};
+    --graphite: {{ settings.color_graphite }};
+    --line: {{ settings.color_line }};
+    --wine: {{ settings.color_wine }};
     --logo-w: {{ settings.logo_width }}px;
   }
   {%- if settings.page_transitions %}

@@ -1,5 +1,5 @@
 {%- if settings.logo != blank -%}
-  {{ settings.logo | image_url: width: 520 | image_tag: class: 'logo-img', alt: shop.name, width: settings.logo_width, loading: 'eager' }}
+  {{ settings.logo | image_url: width: 520 | image_tag: class: 'logo-img', alt: shop.name, loading: 'eager' }}
 {%- else -%}
-  {% render 'wordmark', class: 'logo-mark' %}
+  {% render 'logo-snatch', class: 'logo-mark' %}
 {%- endif -%}

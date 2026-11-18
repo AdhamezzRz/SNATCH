@@ -1,4 +1,4 @@
-{%- comment -%} Outputs a silhouette label derived from a style name. Accepts: name {%- endcomment -%}
+{%- comment -%} Outputs a shape label derived from a style name. Accepts: name {%- endcomment -%}
 {%- liquid
   assign n = name | downcase
   if n contains 'backpack'
@@ -16,10 +16,10 @@
   elsif n contains 'hobo'
     echo 'Hobos'
   elsif n contains 'barrel'
-    echo 'Barrels'
+    echo 'Barrel bags'
   elsif n contains 'top handle'
     echo 'Top handle'
   else
-    echo 'Shoulder'
+    echo 'Shoulder bags'
   endif
 -%}

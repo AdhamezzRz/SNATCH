@@ -1,0 +1,39 @@
+{%- comment -%}
+  Outputs space-separated colour family handles for a colourway name, used by filters.
+  Accepts: name
+{%- endcomment -%}
+{%- liquid
+  assign n = name | downcase
+  assign out = ''
+  if n contains 'black'
+    assign out = out | append: ' black'
+  endif
+  if n contains 'white' or n contains 'ivory' or n contains 'cream' or n contains 'beige' or n contains 'sand'
+    assign out = out | append: ' neutral'
+  endif
+  if n contains 'tan' or n contains 'cognac' or n contains 'brown' or n contains 'taupe'
+    assign out = out | append: ' brown'
+  endif
+  if n contains 'burgundy' or n contains 'red' or n contains 'berry' or n contains 'plum' or n contains 'purple' or n contains 'lilac'
+    assign out = out | append: ' wine'
+  endif
+  if n contains 'pink' or n contains 'blush'
+    assign out = out | append: ' pink'
+  endif
+  if n contains 'navy' or n contains 'blue'
+    assign out = out | append: ' blue'
+  endif
+  if n contains 'green' or n contains 'olive' or n contains 'sage'
+    assign out = out | append: ' green'
+  endif
+  if n contains 'gray' or n contains 'grey' or n contains 'silver' or n contains 'stone'
+    assign out = out | append: ' grey'
+  endif
+  if n contains 'gold' or n contains 'metallic' or n contains 'orange'
+    assign out = out | append: ' gold'
+  endif
+  if n contains 'print' or n contains 'multicolor' or n contains 'patchwork' or n contains 'flowers'
+    assign out = out | append: ' print'
+  endif
+  echo out | strip
+-%}

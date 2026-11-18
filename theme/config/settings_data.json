@@ -1,19 +1,16 @@
 {
   "current": {
-    "logo_width": 132,
-    "color_void": "#0B0908",
-    "color_ink": "#161110",
-    "color_bone": "#EFE8DE",
-    "color_ash": "#A39A90",
-    "color_oxblood": "#7A1626",
-    "color_brass": "#B89A6A",
-    "color_lightbox": "#ECE7E1",
-    "preloader": true,
-    "smooth_scroll": true,
-    "page_transitions": true,
-    "grain": true,
+    "logo_width": 124,
+    "color_paper": "#FFFFFF",
+    "color_stage": "#F4F3F1",
+    "color_ink": "#111111",
+    "color_graphite": "#6A6763",
+    "color_line": "#E7E4E0",
+    "color_wine": "#5E1724",
     "group_colorways": true,
-    "show_dynamic_checkout": true
+    "quick_add": true,
+    "show_dynamic_checkout": true,
+    "page_transitions": true
   },
   "presets": {}
 }

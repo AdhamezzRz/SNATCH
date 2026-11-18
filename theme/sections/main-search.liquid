@@ -5,20 +5,20 @@
       <input type="hidden" name="type" value="product">
       <label class="sr-only" for="SearchPage">{{ 'search.placeholder' | t }}</label>
       <input class="search__input" id="SearchPage" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}">
-      <button class="btn btn--ghost" type="submit"><span class="btn__label">{{ 'search.submit' | t }}</span></button>
+      <button class="btn btn--secondary" type="submit"><span class="btn__label">{{ 'search.submit' | t }}</span></button>
     </form>
   </header>
   {%- paginate search.results by 48 -%}
     {%- if search.performed and search.results_count == 0 -%}
       <p class="plp__empty t-h3">{{ 'search.no_results' | t: terms: search.terms }}</p>
     {%- elsif search.performed -%}
-      <div class="grid grid--4" data-stagger>
+      <div class="grid">
         {%- for item in search.results -%}
           {%- if item.object_type == 'product' -%}{% render 'product-card', product: item %}{%- endif -%}
         {%- endfor -%}
       </div>
       {%- if paginate.pages > 1 -%}
-        <nav class="pager t-mono" aria-label="Pagination">
+        <nav class="pager" aria-label="Pagination">
           {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="pager__a">&larr;</a>{%- endif -%}
           {%- for part in paginate.parts -%}{%- if part.is_link -%}<a class="pager__a" href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span class="pager__a{% if part.title == paginate.current_page %} is-current{% endif %}">{{ part.title }}</span>{%- endif -%}{%- endfor -%}
           {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="pager__a">&rarr;</a>{%- endif -%}
