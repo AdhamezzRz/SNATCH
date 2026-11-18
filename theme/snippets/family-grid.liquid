@@ -1,0 +1,57 @@
+{%- comment -%}
+  Renders a grid of product cards, grouping "Style - Colour" products into one card per style
+  while keeping the incoming sort order.
+  Accepts: products, limit (max cards), rhythm (bool: editorial feature cards), eager_count
+{%- endcomment -%}
+{%- liquid
+  assign max_cards = limit | default: 999
+  assign eager_count = eager_count | default: 0
+  if settings.group_colorways
+    assign raw = ''
+    for p in products
+      assign k = p.title | split: ' - ' | first | split: ' (' | first | strip | handleize
+      assign i = forloop.index0 | prepend: '0000' | slice: -4, 4
+      assign raw = raw | append: k | append: '~' | append: i | append: '|'
+    endfor
+    assign sorted = raw | split: '|' | sort
+    assign groups = ''
+    assign cur = ''
+    assign members = ''
+    assign lead = ''
+    for e in sorted
+      assign parts = e | split: '~'
+      if parts[0] != cur
+        if cur != ''
+          assign groups = groups | append: lead | append: '~' | append: members | append: '|'
+        endif
+        assign cur = parts[0]
+        assign lead = parts[1]
+        assign members = parts[1]
+      else
+        assign members = members | append: ',' | append: parts[1]
+      endif
+    endfor
+    if cur != ''
+      assign groups = groups | append: lead | append: '~' | append: members | append: '|'
+    endif
+    assign ordered = groups | split: '|' | sort
+  else
+    assign plain = ''
+    for p in products
+      assign i = forloop.index0 | prepend: '0000' | slice: -4, 4
+      assign plain = plain | append: i | append: '~' | append: forloop.index0 | append: '|'
+    endfor
+    assign ordered = plain | split: '|'
+  endif
+-%}
+{%- for g in ordered limit: max_cards -%}
+  {%- assign gp = g | split: '~' -%}
+  {%- assign size = '' -%}
+  {%- if rhythm -%}
+    {%- assign m = forloop.index0 | modulo: 9 -%}
+    {%- if m == 4 -%}{%- assign size = 'feature' -%}{%- endif -%}
+  {%- endif -%}
+  {%- assign eager = false -%}
+  {%- if forloop.index <= eager_count -%}{%- assign eager = true -%}{%- endif -%}
+  {% render 'product-card', products: products, indices: gp[1], size: size, eager: eager %}
+{%- endfor -%}

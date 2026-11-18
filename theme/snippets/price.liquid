@@ -1,0 +1,22 @@
+{%- comment -%} Accepts: product, prefix_from (bool) {%- endcomment -%}
+{%- liquid
+  assign target = product.selected_or_first_available_variant
+  assign compare = target.compare_at_price
+  assign on_sale = false
+  if compare > target.price
+    assign on_sale = true
+  endif
+-%}
+<span class="price{% if on_sale %} price--sale{% endif %}" data-price>
+  {%- if on_sale -%}
+    <span class="sr-only">{{ 'products.sale_price' | t }}</span>
+    <span class="price__now">{{ target.price | money }}</span>
+    <span class="sr-only">{{ 'products.regular_price' | t }}</span>
+    <s class="price__was">{{ compare | money }}</s>
+  {%- elsif prefix_from and product.price_varies -%}
+    {%- assign price_min = product.price_min | money -%}
+    <span class="price__now">{{ 'products.from' | t: price: price_min }}</span>
+  {%- else -%}
+    <span class="price__now">{{ target.price | money }}</span>
+  {%- endif -%}
+</span>

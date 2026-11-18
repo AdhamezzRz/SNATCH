@@ -1,0 +1,56 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "SNATCH After Hours",
+    "theme_version": "1.0.0",
+    "theme_author": "SNATCH",
+    "theme_documentation_url": "https://github.com/AdhamezzRz/SNATCH",
+    "theme_support_url": "https://github.com/AdhamezzRz/SNATCH"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the built-in SNATCH wordmark." },
+      { "type": "range", "id": "logo_width", "label": "Logo width", "min": 60, "max": 260, "step": 4, "unit": "px", "default": 132 },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Palette" },
+      { "type": "color", "id": "color_void", "label": "Void (page background)", "default": "#0B0908" },
+      { "type": "color", "id": "color_ink", "label": "Ink (raised surfaces)", "default": "#161110" },
+      { "type": "color", "id": "color_bone", "label": "Bone (text on dark)", "default": "#EFE8DE" },
+      { "type": "color", "id": "color_ash", "label": "Ash (secondary text)", "default": "#A39A90" },
+      { "type": "color", "id": "color_oxblood", "label": "Oxblood (accent)", "default": "#7A1626" },
+      { "type": "color", "id": "color_brass", "label": "Brass (hairlines & details)", "default": "#B89A6A" },
+      { "type": "color", "id": "color_lightbox", "label": "Lightbox (product image stage)", "default": "#ECE7E1" }
+    ]
+  },
+  {
+    "name": "Motion",
+    "settings": [
+      { "type": "checkbox", "id": "preloader", "label": "Show opening curtain", "info": "Plays once per visit.", "default": true },
+      { "type": "checkbox", "id": "smooth_scroll", "label": "Smooth scrolling", "default": true },
+      { "type": "checkbox", "id": "page_transitions", "label": "Cross-page transitions", "default": true },
+      { "type": "checkbox", "id": "grain", "label": "Film grain overlay", "default": true }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      { "type": "checkbox", "id": "group_colorways", "label": "Group colourways into one card", "info": "Products named like \"Style - Colour\" are shown as one card with colour dots.", "default": true },
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show express checkout buttons", "default": true }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" },
+      { "type": "text", "id": "social_whatsapp", "label": "WhatsApp URL" }
+    ]
+  }
+]

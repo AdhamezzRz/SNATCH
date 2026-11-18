@@ -1,0 +1,12 @@
+<section class="auth">
+  <h1 class="t-display">{{ 'customer.activate' | t }}</h1>
+  {%- form 'activate_customer_password', class: 'auth__form' -%}
+    {%- if form.errors -%}<p class="form-err t-mono" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <label class="t-label" for="ActPass">{{ 'customer.password' | t }}</label>
+    <input class="field" id="ActPass" type="password" name="customer[password]" autocomplete="new-password" required>
+    <label class="t-label" for="ActPass2">{{ 'customer.password' | t }}</label>
+    <input class="field" id="ActPass2" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+    <button class="btn btn--primary" type="submit"><span class="btn__label">{{ 'customer.activate' | t }}</span></button>
+    <button class="btn btn--ghost" type="submit" name="decline"><span class="btn__label">{{ 'customer.decline' | t }}</span></button>
+  {%- endform -%}
+</section>

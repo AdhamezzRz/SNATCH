@@ -1,0 +1,129 @@
+{
+  "general": {
+    "skip_to_content": "Skip to content",
+    "menu": "Menu",
+    "close": "Close",
+    "search": "Search",
+    "account": "Account",
+    "bag": "Bag",
+    "home": "Home",
+    "loading": "Loading",
+    "pause": "Pause",
+    "play": "Play",
+    "previous": "Previous",
+    "next": "Next",
+    "view_all": "View all",
+    "explore": "Explore",
+    "pieces": {
+      "one": "{{ count }} piece",
+      "other": "{{ count }} pieces"
+    },
+    "colourways": {
+      "one": "{{ count }} colourway",
+      "other": "{{ count }} colourways"
+    },
+    "page": "Page {{ page }}",
+    "back_to_top": "Back to top"
+  },
+  "products": {
+    "add_to_bag": "Add to bag",
+    "adding": "Adding",
+    "added": "Added to bag",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "colourway": "Colourway",
+    "other_colourways": "Also in",
+    "lot": "Lot",
+    "price": "Price",
+    "sale_price": "Sale price",
+    "regular_price": "Regular price",
+    "from": "From {{ price }}",
+    "details": "Details",
+    "you_may_also": "Also in the vault",
+    "view_product": "View {{ title }}",
+    "gallery": "Product images",
+    "image_n": "Image {{ n }} of {{ total }}",
+    "error": "Something went wrong. Please try again."
+  },
+  "cart": {
+    "title": "Your bag",
+    "empty": "Your bag is empty. Nothing snatched yet.",
+    "empty_cta": "Enter the vault",
+    "subtotal": "Subtotal",
+    "taxes_note": "Taxes and shipping are calculated at checkout.",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "item_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    },
+    "updated": "Bag updated",
+    "note": "Order note",
+    "view_cart": "View bag"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search the vault",
+    "results_for": "Results for “{{ terms }}”",
+    "no_results": "Nothing matches “{{ terms }}”. Try a colour or a silhouette.",
+    "products": "Products",
+    "submit": "Search",
+    "suggestions": "Try: tote, burgundy, clutch, crossbody"
+  },
+  "collections": {
+    "all": "All",
+    "sort_by": "Sort",
+    "filter": "Silhouette",
+    "empty": "This collection is empty for now.",
+    "load_more": "Load more"
+  },
+  "newsletter": {
+    "label": "Email",
+    "placeholder": "Your email",
+    "submit": "Join",
+    "success": "You're on the list."
+  },
+  "customer": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "register": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "forgot": "Forgot your password?",
+    "reset": "Reset password",
+    "submit": "Submit",
+    "orders": "Orders",
+    "no_orders": "You haven't placed any orders yet.",
+    "order": "Order",
+    "date": "Date",
+    "total": "Total",
+    "status": "Status",
+    "addresses": "Addresses",
+    "back": "Back to account",
+    "activate": "Activate account",
+    "decline": "Decline",
+    "add_address": "Add address",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "password": {
+    "title": "The vault opens soon",
+    "enter": "Enter with password",
+    "submit": "Enter"
+  },
+  "gift_card": {
+    "title": "Your gift card",
+    "code": "Code",
+    "print": "Print",
+    "expired": "Expired"
+  },
+  "accessibility": {
+    "unit_price_separator": "per"
+  }
+}

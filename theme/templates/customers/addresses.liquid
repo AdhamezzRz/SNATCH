@@ -1,0 +1,22 @@
+<section class="auth auth--wide">
+  <a class="t-label" href="{{ routes.account_url }}">{{ 'customer.back' | t }}</a>
+  <h1 class="t-display">{{ 'customer.addresses' | t }}</h1>
+  {%- for address in customer.addresses -%}
+    <div class="address">{{ address | format_address }}
+      {%- form 'customer_address', address -%}
+        <input class="field" type="text" name="address[address1]" value="{{ address.address1 | escape }}" aria-label="Address">
+        <button class="btn btn--ghost btn--sm" type="submit"><span class="btn__label">{{ 'customer.save' | t }}</span></button>
+      {%- endform -%}
+    </div>
+  {%- endfor -%}
+  <h2 class="t-h3">{{ 'customer.add_address' | t }}</h2>
+  {%- form 'customer_address', customer.new_address, class: 'auth__form' -%}
+    <label class="t-label" for="AddrFirst">{{ 'customer.first_name' | t }}</label><input class="field" id="AddrFirst" type="text" name="address[first_name]">
+    <label class="t-label" for="AddrLast">{{ 'customer.last_name' | t }}</label><input class="field" id="AddrLast" type="text" name="address[last_name]">
+    <label class="t-label" for="Addr1">Address</label><input class="field" id="Addr1" type="text" name="address[address1]">
+    <label class="t-label" for="AddrCity">City</label><input class="field" id="AddrCity" type="text" name="address[city]">
+    <label class="t-label" for="AddrCountry">Country</label><input class="field" id="AddrCountry" type="text" name="address[country]" value="Egypt">
+    <label class="t-label" for="AddrPhone">Phone</label><input class="field" id="AddrPhone" type="tel" name="address[phone]">
+    <button class="btn btn--primary" type="submit"><span class="btn__label">{{ 'customer.save' | t }}</span></button>
+  {%- endform -%}
+</section>

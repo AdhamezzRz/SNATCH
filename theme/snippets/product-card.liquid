@@ -1,0 +1,78 @@
+{%- comment -%}
+  A product card. Either pass `product`, or pass `products` + `indices` ("4,5,6")
+  to render a colourway family where the first index is the lead product.
+  Accepts: product, products, indices, lot (number), eager (bool), size ('feature' | blank)
+{%- endcomment -%}
+{%- liquid
+  if indices != blank
+    assign idx = indices | split: ','
+    assign lead_i = idx.first | plus: 0
+    assign p = products[lead_i]
+  else
+    assign p = product
+    assign idx = ''
+  endif
+  capture family
+    render 'product-name', title: p.title, part: 'family'
+  endcapture
+  capture colour
+    render 'product-name', title: p.title, part: 'colour'
+  endcapture
+  capture silhouette
+    render 'silhouette', name: family
+  endcapture
+  assign family = family | strip
+  assign colour = colour | strip
+  assign silhouette = silhouette | strip
+  assign loading = 'lazy'
+  if eager
+    assign loading = 'eager'
+  endif
+  assign img = p.featured_media.preview_image
+  assign img2 = p.media[1].preview_image
+  assign sizes = '(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw'
+  if size == 'feature'
+    assign sizes = '(min-width: 1100px) 50vw, 100vw'
+  endif
+-%}
+<article class="card{% if size != blank %} card--{{ size }}{% endif %}" data-card data-silhouette="{{ silhouette | handleize }}" data-silhouette-label="{{ silhouette | escape }}" data-spot>
+  <a class="card__media lightbox" href="{{ p.url }}" data-card-link tabindex="-1" aria-hidden="true" style="view-transition-name: p-{{ p.id }}">
+    {%- if img -%}
+      {{ img | image_url: width: 1200 | image_tag: loading: loading, sizes: sizes, widths: '360, 540, 720, 900, 1200', class: 'card__img', alt: p.title, data-card-img: '' }}
+      {%- if img2 -%}
+        {{ img2 | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: sizes, widths: '360, 540, 720, 900, 1200', class: 'card__img card__img--alt', alt: '' }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'card__placeholder' }}
+    {%- endif -%}
+    {%- if lot -%}<span class="card__lot t-mono">{{ 'products.lot' | t }} {{ lot | prepend: '00' | slice: -3, 3 }}</span>{%- endif -%}
+    {%- unless p.available -%}<span class="card__flag t-label">{{ 'products.sold_out' | t }}</span>{%- endunless -%}
+  </a>
+  <div class="card__meta">
+    <h3 class="card__title"><a href="{{ p.url }}" data-card-link data-card-title>{{ family }}</a></h3>
+    <div class="card__row">
+      <span class="card__colour t-mono" data-card-colour>{{ colour | default: silhouette }}</span>
+      <span class="card__price">{% render 'price', product: p %}</span>
+    </div>
+    {%- if idx.size > 1 -%}
+      <ul class="dots" role="list" data-dots>
+        {%- for i in idx limit: 8 -%}
+          {%- assign mi = i | plus: 0 -%}{%- assign m = products[mi] -%}
+          {%- capture m_colour -%}{%- render 'product-name', title: m.title, part: 'colour' -%}{%- endcapture -%}
+          {%- assign m_colour = m_colour | strip | default: m.title -%}
+          <li>
+            <a class="dot{% if forloop.first %} is-active{% endif %}" href="{{ m.url }}"
+              style="--dot: {% render 'swatch-color', name: m_colour %}"
+              data-dot
+              data-colour="{{ m_colour | escape }}"
+              data-img="{{ m.featured_media.preview_image | image_url: width: 900 }}"
+              data-srcset="{{ m.featured_media.preview_image | image_url: width: 540 }} 540w, {{ m.featured_media.preview_image | image_url: width: 900 }} 900w, {{ m.featured_media.preview_image | image_url: width: 1200 }} 1200w"
+              data-price="{{ m.price | money | escape }}"
+              aria-label="{{ family | escape }} – {{ m_colour | escape }}"></a>
+          </li>
+        {%- endfor -%}
+        {%- if idx.size > 8 -%}<li class="dots__more t-mono">+{{ idx.size | minus: 8 }}</li>{%- endif -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</article>

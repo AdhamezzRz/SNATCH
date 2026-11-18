@@ -1,0 +1,96 @@
+{%- liquid
+  assign img = section.settings.image
+  assign img_m = section.settings.image_mobile | default: img
+  assign vid = section.settings.video
+  assign vid_m = section.settings.video_mobile | default: vid
+  assign feat = section.settings.product
+-%}
+<section class="hero" data-hero data-spotlight style="--veil: {{ section.settings.veil | divided_by: 100.0 }};" aria-label="{{ section.settings.line_1 | escape }}">
+  <div class="hero__media" data-hero-media>
+    {%- if img != blank -%}
+      <picture class="hero__picture">
+        <source media="(max-width: 749px)" srcset="{{ img_m | image_url: width: 750 }} 750w, {{ img_m | image_url: width: 1100 }} 1100w, {{ img_m | image_url: width: 1500 }} 1500w" sizes="100vw">
+        {{ img | image_url: width: 2400 | image_tag: class: 'hero__img', loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '1000, 1400, 1800, 2400', alt: img.alt }}
+      </picture>
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__img placeholder' }}
+    {%- endif -%}
+    {%- if vid != blank -%}
+      <div class="hero__video hero__video--d" data-hero-video>
+        {{ vid | video_tag: autoplay: false, loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '1600x' }}
+      </div>
+      <div class="hero__video hero__video--m" data-hero-video>
+        {{ vid_m | video_tag: autoplay: false, loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '900x' }}
+      </div>
+    {%- elsif section.settings.video_url != blank -%}
+      <div class="hero__video hero__video--d" data-hero-video>
+        <video muted loop playsinline preload="none" data-src="{{ section.settings.video_url | escape }}"></video>
+      </div>
+      <div class="hero__video hero__video--m" data-hero-video>
+        <video muted loop playsinline preload="none" data-src="{{ section.settings.video_url_mobile | default: section.settings.video_url | escape }}"></video>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="hero__veil" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    <h1 class="hero__title t-mega">
+      {%- if section.settings.line_1 != blank -%}<span class="mask"><span class="mask__in" data-hero-line>{{ section.settings.line_1 | escape }}</span></span>{%- endif -%}
+      {%- if section.settings.line_2 != blank -%}<span class="mask"><span class="mask__in" data-hero-line>{{ section.settings.line_2 | escape }}</span></span>{%- endif -%}
+      {%- if section.settings.line_3 != blank -%}<span class="mask"><em class="mask__in hero__accent" data-hero-line>{{ section.settings.line_3 | escape }}</em></span>{%- endif -%}
+    </h1>
+    <div class="hero__foot" data-hero-fade>
+      {%- if section.settings.text != blank -%}<p class="hero__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+      <div class="hero__ctas">
+        {%- if section.settings.button_label != blank -%}
+          <a class="btn btn--primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" data-magnetic><span class="btn__label">{{ section.settings.button_label | escape }}</span>{% render 'icon', name: 'arrow' %}</a>
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          <a class="btn btn--ghost" href="{{ section.settings.button2_link }}"><span class="btn__label">{{ section.settings.button2_label | escape }}</span></a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if feat != blank -%}
+    {%- capture f_family -%}{%- render 'product-name', title: feat.title, part: 'family' -%}{%- endcapture -%}
+    {%- capture f_colour -%}{%- render 'product-name', title: feat.title, part: 'colour' -%}{%- endcapture -%}
+    <a class="hero__tag" href="{{ feat.url }}" data-hero-fade>
+      <span class="t-mono hero__tag-k">{{ section.settings.tag_label | escape }}</span>
+      <span class="hero__tag-name">{{ f_family | strip }}</span>
+      <span class="t-mono hero__tag-meta">{{ f_colour | strip }} · {{ feat.price | money }}</span>
+    </a>
+  {%- endif -%}
+
+  <div class="hero__scroll t-mono" aria-hidden="true" data-hero-fade><span>Scroll</span><i></i></div>
+  {%- if vid != blank or section.settings.video_url != blank -%}
+    <button type="button" class="hero__pause icon-btn" data-video-toggle aria-pressed="false" aria-label="{{ 'general.pause' | t }}">{% render 'icon', name: 'pause' %}</button>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Spotlight hero",
+  "class": "section-hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image" },
+    { "type": "video", "id": "video", "label": "Video loop", "info": "Plays muted over the image." },
+    { "type": "video", "id": "video_mobile", "label": "Mobile video loop" },
+    { "type": "url", "id": "video_url", "label": "Video loop file URL", "info": "Used when no video is picked above. Paste an .mp4 URL from Content > Files." },
+    { "type": "url", "id": "video_url_mobile", "label": "Mobile video loop file URL" },
+    { "type": "range", "id": "veil", "label": "Darkness outside the spotlight", "min": 0, "max": 95, "step": 5, "unit": "%", "default": 70 },
+    { "type": "text", "id": "line_1", "label": "Heading line 1", "default": "Some things" },
+    { "type": "text", "id": "line_2", "label": "Heading line 2", "default": "aren't bought." },
+    { "type": "text", "id": "line_3", "label": "Heading accent line", "default": "They're snatched." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Handbags picked one by one in Cairo and lit like they deserve. Take yours before someone else does." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Enter the vault" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "button2_label", "label": "Second button label", "default": "Tonight's lots" },
+    { "type": "url", "id": "button2_link", "label": "Second button link" },
+    { "type": "product", "id": "product", "label": "Product under the light" },
+    { "type": "text", "id": "tag_label", "label": "Product tag label", "default": "Under the light" }
+  ],
+  "presets": [{ "name": "Spotlight hero" }]
+}
+{% endschema %}

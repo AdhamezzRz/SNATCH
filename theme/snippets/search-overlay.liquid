@@ -1,0 +1,12 @@
+<dialog class="search" id="SearchOverlay" aria-label="{{ 'search.title' | t }}" data-search>
+  <div class="search__inner">
+    <form class="search__form" action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <label class="sr-only" for="SearchOverlayInput">{{ 'search.placeholder' | t }}</label>
+      <input class="search__input" id="SearchOverlayInput" type="search" name="q" autocomplete="off" placeholder="{{ 'search.placeholder' | t }}" data-search-input>
+      <button type="button" class="icon-btn search__close" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </form>
+    <p class="search__hint t-mono" data-search-hint>{{ 'search.suggestions' | t }}</p>
+    <div class="search__results" data-search-results aria-live="polite"></div>
+  </div>
+</dialog>

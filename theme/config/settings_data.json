@@ -1,0 +1,19 @@
+{
+  "current": {
+    "logo_width": 132,
+    "color_void": "#0B0908",
+    "color_ink": "#161110",
+    "color_bone": "#EFE8DE",
+    "color_ash": "#A39A90",
+    "color_oxblood": "#7A1626",
+    "color_brass": "#B89A6A",
+    "color_lightbox": "#ECE7E1",
+    "preloader": true,
+    "smooth_scroll": true,
+    "page_transitions": true,
+    "grain": true,
+    "group_colorways": true,
+    "show_dynamic_checkout": true
+  },
+  "presets": {}
+}

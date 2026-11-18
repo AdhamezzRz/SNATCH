@@ -1,0 +1,19 @@
+<section class="manifesto" data-manifesto style="--pad: {{ section.settings.padding }}px">
+  <div class="manifesto__wrap">
+    {%- if section.settings.label != blank -%}<p class="t-mono manifesto__label">{{ section.settings.label | escape }}</p>{%- endif -%}
+    <p class="manifesto__text t-display" data-scrub-words>{{ section.settings.text | escape }}</p>
+    {%- if section.settings.signature != blank -%}<p class="manifesto__sig t-mono">{{ section.settings.signature | escape }}</p>{%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Manifesto",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "House rules" },
+    { "type": "textarea", "id": "text", "label": "Statement", "default": "Not every bag deserves a spotlight. These do. Picked one by one, lit one by one, for the woman who never waits for permission to take what she wants." },
+    { "type": "text", "id": "signature", "label": "Signature", "default": "— SNATCH, Cairo" },
+    { "type": "range", "id": "padding", "label": "Vertical padding", "min": 40, "max": 240, "step": 10, "unit": "px", "default": 180 }
+  ],
+  "presets": [{ "name": "Manifesto" }]
+}
+{% endschema %}

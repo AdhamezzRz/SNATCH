@@ -1,0 +1,83 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+<header class="header{% if section.settings.overlay and template.name == 'index' %} header--overlay{% endif %}" data-header>
+  <div class="header__bar">
+    <div class="header__left">
+      <button type="button" class="header__menu-btn" data-menu-open aria-expanded="false" aria-controls="SiteMenu">
+        <span class="burger" aria-hidden="true"><i></i><i></i></span>
+        <span class="t-label">{{ 'general.menu' | t }}</span>
+      </button>
+      {%- if section.settings.shop_link != blank -%}
+        <a class="header__link t-label hide-sm" href="{{ section.settings.shop_link }}">{{ section.settings.shop_label | escape }}</a>
+      {%- endif -%}
+    </div>
+    <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {% render 'logo' %}
+    </a>
+    <div class="header__right">
+      <button type="button" class="icon-btn" data-search-open aria-label="{{ 'general.search' | t }}">{% render 'icon', name: 'search' %}</button>
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="icon-btn hide-sm" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}">{% render 'icon', name: 'account' %}</a>
+      {%- endif -%}
+      <a class="header__bag" href="{{ routes.cart_url }}" data-cart-open>
+        <span class="t-label hide-sm">{{ 'general.bag' | t }}</span>
+        <span class="header__bag-icon">{% render 'icon', name: 'bag' %}</span>
+        <span class="header__count t-mono" data-cart-count aria-label="{{ 'cart.item_count' | t: count: cart.item_count }}">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="SiteMenu" data-menu hidden>
+  <div class="menu__glow" aria-hidden="true"></div>
+  <div class="menu__top">
+    <span class="t-mono menu__stamp">{{ section.settings.city | escape }} — <span data-clock>--:--</span></span>
+    <button type="button" class="menu__close t-label" data-menu-close>{{ 'general.close' | t }} {% render 'icon', name: 'close' %}</button>
+  </div>
+  <nav class="menu__nav" aria-label="{{ 'general.menu' | t }}">
+    <ul role="list" class="menu__list">
+      {%- for link in menu.links -%}
+        <li class="menu__item" style="--i: {{ forloop.index0 }}">
+          <a class="menu__link" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>
+            <span class="menu__index t-mono">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="menu__word">{{ link.title | escape }}</span>
+          </a>
+          {%- if link.links.size > 0 -%}
+            <ul role="list" class="menu__sub">
+              {%- for child in link.links -%}
+                <li><a class="t-label" href="{{ child.url }}">{{ child.title | escape }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+  <div class="menu__aside">
+    {%- if section.settings.menu_image != blank -%}
+      <div class="menu__image lightbox--dark">
+        {{ section.settings.menu_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '30vw', widths: '450, 700, 900', alt: section.settings.menu_image.alt }}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.menu_note != blank -%}
+      <p class="menu__note">{{ section.settings.menu_note | escape }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "overlay", "label": "Float over the home page hero", "default": true },
+    { "type": "text", "id": "shop_label", "label": "Quick link label", "default": "Shop" },
+    { "type": "url", "id": "shop_link", "label": "Quick link", "default": "/collections/all" },
+    { "type": "image_picker", "id": "menu_image", "label": "Menu image" },
+    { "type": "text", "id": "city", "label": "Menu clock city label", "default": "Cairo" },
+    { "type": "text", "id": "menu_note", "label": "Menu note", "default": "Lit one by one. Gone when they're gone." }
+  ]
+}
+{% endschema %}

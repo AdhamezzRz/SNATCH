@@ -1,0 +1,52 @@
+{%- liquid
+  assign total = section.blocks.size
+-%}
+<section class="lots" id="lots" data-lots aria-labelledby="LotsTitle-{{ section.id }}">
+  <div class="lots__pin" data-lots-pin>
+    <div class="lots__head">
+      <h2 class="t-h2 lots__title" id="LotsTitle-{{ section.id }}" data-reveal>{{ section.settings.heading | escape }}</h2>
+      <div class="lots__aside">
+        {%- if section.settings.text != blank -%}<p class="lots__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+        <p class="t-mono lots__counter" aria-hidden="true"><span data-lots-current>01</span> / {{ total | prepend: '0' | slice: -2, 2 }}</p>
+        <div class="lots__bar" aria-hidden="true"><i data-lots-progress></i></div>
+      </div>
+    </div>
+    <div class="lots__viewport">
+      <ul class="lots__track" role="list" data-lots-track>
+        {%- for block in section.blocks -%}
+          <li class="lots__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.product != blank -%}
+              {% render 'product-card', product: block.settings.product, lot: forloop.index, eager: false %}
+            {%- else -%}
+              <div class="card"><div class="card__media lightbox">{{ 'product-1' | placeholder_svg_tag: 'card__placeholder' }}</div></div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+        {%- if section.settings.end_link != blank -%}
+          <li class="lots__item lots__item--end">
+            <a class="lots__end" href="{{ section.settings.end_link }}" data-spot>
+              <span class="t-display">{{ section.settings.end_label | escape }}</span>
+              {% render 'icon', name: 'arrow' %}
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Tonight's lots",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Tonight's lots" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Eight pieces under the light this week. Scroll to walk the room." },
+    { "type": "text", "id": "end_label", "label": "End card label", "default": "See every piece" },
+    { "type": "url", "id": "end_link", "label": "End card link", "default": "/collections/all" }
+  ],
+  "blocks": [
+    { "type": "lot", "name": "Lot", "settings": [{ "type": "product", "id": "product", "label": "Product" }] }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "Tonight's lots", "blocks": [{ "type": "lot" }, { "type": "lot" }, { "type": "lot" }, { "type": "lot" }] }]
+}
+{% endschema %}

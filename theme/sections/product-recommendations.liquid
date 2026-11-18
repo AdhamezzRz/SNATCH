@@ -1,0 +1,16 @@
+<section class="recs" data-recs data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=12&intent=related">
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <header class="recs__head">
+      <h2 class="t-h2" data-reveal>{%- if section.settings.heading != blank -%}{{ section.settings.heading | escape }}{%- else -%}{{ 'products.you_may_also' | t }}{%- endif -%}</h2>
+    </header>
+    <div class="grid grid--4">
+      {% render 'family-grid', products: recommendations.products, limit: 4 %}
+    </div>
+  {%- endif -%}
+</section>
+{% schema %}
+{
+  "name": "Recommendations",
+  "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Also in the vault" }]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "overlay": true,
+        "shop_label": "Shop",
+        "shop_link": "/collections/all",
+        "menu_note": "Lit one by one. Gone when they're gone."
+      }
+    }
+  },
+  "order": ["header"]
+}

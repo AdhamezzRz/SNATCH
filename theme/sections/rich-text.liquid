@@ -1,0 +1,14 @@
+<section class="prose-page prose-page--center">
+  {%- if section.settings.heading != blank -%}<h2 class="t-display" data-reveal>{{ section.settings.heading | escape }}</h2>{%- endif -%}
+  {%- if section.settings.text != blank -%}<div class="rte prose">{{ section.settings.text }}</div>{%- endif -%}
+</section>
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Say something worth reading." },
+    { "type": "richtext", "id": "text", "label": "Text" }
+  ],
+  "presets": [{ "name": "Rich text" }]
+}
+{% endschema %}

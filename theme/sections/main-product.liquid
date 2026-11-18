@@ -1,0 +1,161 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  capture family
+    render 'product-name', title: product.title, part: 'family'
+  endcapture
+  capture colour
+    render 'product-name', title: product.title, part: 'colour'
+  endcapture
+  assign family = family | strip
+  assign colour = colour | strip
+  assign media_count = product.media.size
+-%}
+<section class="pdp" data-pdp data-family="{{ family | escape }}" data-product-id="{{ product.id }}">
+  <div class="pdp__gallery" aria-label="{{ 'products.gallery' | t }}">
+    <ul class="pdp__media-list" role="list" data-pdp-media>
+      {%- for media in product.media -%}
+        <li class="pdp__media lightbox" {% if forloop.first %}style="view-transition-name: p-{{ product.id }}"{% endif %}>
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              {%- liquid
+                assign m_loading = 'lazy'
+                assign m_priority = 'auto'
+                if forloop.first
+                  assign m_loading = 'eager'
+                  assign m_priority = 'high'
+                endif
+                assign m_alt = media.alt | default: product.title
+              -%}
+              {{ media | image_url: width: 2000 | image_tag: loading: m_loading, sizes: '(min-width: 990px) 58vw, 100vw', widths: '600, 900, 1200, 1600, 2000', alt: m_alt, class: 'pdp__img', fetchpriority: m_priority }}
+            {%- when 'video' -%}
+              {{ media | video_tag: controls: true, muted: true, playsinline: true, image_size: '1200x' }}
+            {%- when 'external_video' -%}
+              {{ media | external_video_tag }}
+            {%- else -%}
+              {{ media | media_tag }}
+          {%- endcase -%}
+          <span class="pdp__count t-mono" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }} / {{ media_count | prepend: '0' | slice: -2, 2 }}</span>
+        </li>
+      {%- else -%}
+        <li class="pdp__media lightbox">{{ 'product-1' | placeholder_svg_tag: 'pdp__img' }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="pdp__info">
+    <div class="pdp__sticky">
+      <nav class="crumbs t-mono" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a><span aria-hidden="true">/</span>
+        {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">{{ 'collections.all' | t }}</a>{%- endif -%}
+      </nav>
+      {%- if current.sku != blank -%}<p class="pdp__lot t-mono" data-sku>{{ 'products.lot' | t }} · {{ current.sku }}</p>{%- endif -%}
+      <h1 class="pdp__title t-h2">{{ family }}</h1>
+      {%- if colour != blank -%}<p class="pdp__colour"><span class="dot dot--md" style="--dot: {% render 'swatch-color', name: colour %}" aria-hidden="true"></span>{{ colour }}</p>{%- endif -%}
+      <div class="pdp__price">{% render 'price', product: product %}</div>
+
+      <div class="pdp__siblings" data-siblings hidden>
+        <p class="t-label">{{ 'products.other_colourways' | t }} {{ family }}</p>
+        <ul class="pdp__sibling-list" role="list" data-sibling-list></ul>
+      </div>
+
+      {%- form 'product', product, class: 'pdp__form', data-product-form: '', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <fieldset class="opt" data-option="{{ forloop.index0 }}">
+              <legend class="t-label">{{ option.name }}</legend>
+              <div class="opt__values">
+                {%- for value in option.values -%}
+                  <label class="opt__pill">
+                    <input type="radio" name="option-{{ forloop.parentloop.index0 }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %} data-option-input>
+                    <span>{{ value }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+          <script type="application/json" data-variants>{{ product.variants | json }}</script>
+        {%- endunless -%}
+
+        <div class="pdp__actions">
+          <div class="qty" data-qty>
+            <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.decrease' | t }}">{% render 'icon', name: 'minus' %}</button>
+            <input class="qty__input" type="number" name="quantity" min="1" value="1" aria-label="{{ 'products.quantity' | t }}" data-qty-input>
+            <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
+          </div>
+          <button type="submit" name="add" class="btn btn--primary btn--grow" data-add {% unless current.available %}disabled{% endunless %} data-magnetic>
+            <span class="btn__label" data-add-label>{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
+            <span class="btn__price t-mono" data-add-price>{{ current.price | money }}</span>
+          </button>
+        </div>
+        {%- if settings.show_dynamic_checkout -%}
+          <div class="pdp__express">{{ form | payment_button }}</div>
+        {%- endif -%}
+        <p class="pdp__error t-mono" role="alert" data-form-error hidden></p>
+      {%- endform -%}
+
+      <div class="acc">
+        {%- if product.description != blank -%}
+          <details class="acc__item" open>
+            <summary class="acc__sum t-label">{{ 'products.details' | t }}<span class="acc__icon" aria-hidden="true"></span></summary>
+            <div class="acc__body rte">{{ product.description }}</div>
+          </details>
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.title != blank -%}
+            <details class="acc__item" {{ block.shopify_attributes }}>
+              <summary class="acc__sum t-label">{{ block.settings.title | escape }}<span class="acc__icon" aria-hidden="true"></span></summary>
+              <div class="acc__body rte">{{ block.settings.content }}{%- if block.settings.page != blank -%}{{ block.settings.page.content }}{%- endif -%}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="pdp__bar" data-pdp-bar aria-hidden="true">
+    <span class="pdp__bar-name">{{ family }}<span class="t-mono">{{ colour }}</span></span>
+    <button type="button" class="btn btn--primary btn--sm" data-bar-add tabindex="-1" {% unless current.available %}disabled{% endunless %}>
+      <span class="btn__label">{% if current.available %}{{ 'products.add_to_bag' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
+      <span class="btn__price t-mono">{{ current.price | money }}</span>
+    </button>
+  </div>
+</section>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {%- if product.featured_image -%}"image": [{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
+    "description": {{ product.description | strip_html | json }},
+    "sku": {{ current.sku | json }},
+    "brand": { "@type": "Brand", "name": {{ shop.name | json }} },
+    "offers": {
+      "@type": "Offer",
+      "url": {{ request.origin | append: current.url | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "price": {{ current.price | divided_by: 100.0 | json }},
+      "availability": "http://schema.org/{% if current.available %}InStock{% else %}OutOfStock{% endif %}"
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "class": "section-pdp",
+  "blocks": [
+    {
+      "type": "collapsible",
+      "name": "Collapsible row",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Delivery & returns" },
+        { "type": "richtext", "id": "content", "label": "Content" },
+        { "type": "page", "id": "page", "label": "Page content" }
+      ]
+    }
+  ]
+}
+{% endschema %}

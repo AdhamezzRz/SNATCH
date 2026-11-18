@@ -1,0 +1,31 @@
+{%- liquid
+  assign c = section.settings.collection
+  if c == blank
+    assign c = collections.all
+  endif
+-%}
+<section class="vault" aria-labelledby="VaultTitle-{{ section.id }}">
+  <header class="vault__head">
+    <h2 class="t-display vault__title" id="VaultTitle-{{ section.id }}" data-reveal>{{ section.settings.heading | escape }}</h2>
+    <div class="vault__aside">
+      {%- if section.settings.text != blank -%}<p>{{ section.settings.text | escape }}</p>{%- endif -%}
+      <a class="link-arrow t-label" href="{{ c.url }}">{{ section.settings.link_label | escape }} <span class="t-mono">({{ c.products_count }})</span> {% render 'icon', name: 'arrow' %}</a>
+    </div>
+  </header>
+  <div class="grid grid--4" data-stagger>
+    {% render 'family-grid', products: c.products, limit: section.settings.limit %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "The vault",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The vault" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Every style, every colourway. Hover a dot to try it on." },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Defaults to all products." },
+    { "type": "range", "id": "limit", "label": "Styles to show", "min": 4, "max": 24, "step": 1, "default": 8 },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Open the full vault" }
+  ],
+  "presets": [{ "name": "The vault" }]
+}
+{% endschema %}

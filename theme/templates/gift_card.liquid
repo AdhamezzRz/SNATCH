@@ -1,0 +1,21 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ 'gift_card.title' | t }} — {{ shop.name }}</title>
+  {% render 'theme-styles' %}
+  {{ 'snatch.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body>
+  <main class="auth">
+    {% render 'wordmark', class: 'pw__mark' %}
+    <h1 class="t-display">{{ gift_card.initial_value | money }}</h1>
+    <p class="t-label">{{ 'gift_card.code' | t }}</p>
+    <p class="t-h3 t-mono">{{ gift_card.code | format_code }}</p>
+    {%- if gift_card.expired -%}<p class="t-mono">{{ 'gift_card.expired' | t }}</p>{%- endif -%}
+    <p><a class="btn btn--primary" href="{{ shop.url }}"><span class="btn__label">{{ shop.name }}</span></a></p>
+  </main>
+</body>
+</html>

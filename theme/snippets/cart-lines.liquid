@@ -1,0 +1,31 @@
+{%- if cart.item_count == 0 -%}
+  <div class="drawer__empty">
+    <p class="drawer__empty-title">{{ 'cart.empty' | t }}</p>
+    <a class="btn btn--ghost" href="{{ routes.all_products_collection_url }}"><span class="btn__label">{{ 'cart.empty_cta' | t }}</span>{% render 'icon', name: 'arrow' %}</a>
+  </div>
+{%- else -%}
+  <ul class="lines" role="list">
+    {%- for item in cart.items -%}
+      {%- capture family -%}{%- render 'product-name', title: item.product.title, part: 'family' -%}{%- endcapture -%}
+      {%- capture colour -%}{%- render 'product-name', title: item.product.title, part: 'colour' -%}{%- endcapture -%}
+      <li class="line" data-line="{{ item.key }}">
+        <a class="line__media lightbox" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+          {%- if item.image -%}{{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+        </a>
+        <div class="line__info">
+          <a class="line__title" href="{{ item.url }}">{{ family | strip }}</a>
+          <span class="t-mono line__colour">{{ colour | strip }}{% unless item.product.has_only_default_variant %} · {{ item.variant.title }}{% endunless %}</span>
+          <div class="line__row">
+            <div class="qty" data-qty>
+              <button type="button" class="qty__btn" data-qty-step="-1" aria-label="{{ 'products.decrease' | t }}">{% render 'icon', name: 'minus' %}</button>
+              <input class="qty__input" type="number" min="0" value="{{ item.quantity }}" aria-label="{{ 'products.quantity' | t }}" data-qty-input data-key="{{ item.key }}">
+              <button type="button" class="qty__btn" data-qty-step="1" aria-label="{{ 'products.increase' | t }}">{% render 'icon', name: 'plus' %}</button>
+            </div>
+            <span class="line__price">{{ item.final_line_price | money }}</span>
+          </div>
+          <button type="button" class="line__remove t-label" data-remove="{{ item.key }}">{{ 'cart.remove' | t }}</button>
+        </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

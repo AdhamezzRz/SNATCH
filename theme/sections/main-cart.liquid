@@ -1,0 +1,19 @@
+<section class="cartpage">
+  <h1 class="t-mega cartpage__title">{{ 'cart.title' | t }}</h1>
+  <div class="cartpage__grid">
+    <div class="cartpage__lines" data-cart-page>{% render 'cart-lines' %}</div>
+    {%- if cart.item_count > 0 -%}
+      <form class="cartpage__sum" action="{{ routes.cart_url }}" method="post">
+        <div class="drawer__total"><span class="t-label">{{ 'cart.subtotal' | t }}</span><span class="drawer__amount" data-cart-total>{{ cart.total_price | money }}</span></div>
+        <p class="drawer__note">{{ 'cart.taxes_note' | t }}</p>
+        <label class="t-label" for="CartNote">{{ 'cart.note' | t }}</label>
+        <textarea id="CartNote" class="field" name="note" rows="3">{{ cart.note }}</textarea>
+        <button type="submit" name="checkout" class="btn btn--primary btn--block"><span class="btn__label">{{ 'cart.checkout' | t }}</span>{% render 'icon', name: 'arrow' %}</button>
+        {%- if additional_checkout_buttons -%}<div class="cartpage__express">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Cart", "settings": [] }
+{% endschema %}

@@ -1,0 +1,25 @@
+{%- comment -%} Outputs a silhouette label derived from a style name. Accepts: name {%- endcomment -%}
+{%- liquid
+  assign n = name | downcase
+  if n contains 'backpack'
+    echo 'Backpacks'
+  elsif n contains 'clutch' or n contains 'pouch'
+    echo 'Clutches'
+  elsif n contains 'crossbody' or n contains 'saddle' or n contains 'vanity'
+    echo 'Crossbody'
+  elsif n contains 'tote' or n contains 'carryall' or n contains 'duffle'
+    echo 'Totes'
+  elsif n contains 'bucket'
+    echo 'Buckets'
+  elsif n contains 'satchel'
+    echo 'Satchels'
+  elsif n contains 'hobo'
+    echo 'Hobos'
+  elsif n contains 'barrel'
+    echo 'Barrels'
+  elsif n contains 'top handle'
+    echo 'Top handle'
+  else
+    echo 'Shoulder'
+  endif
+-%}

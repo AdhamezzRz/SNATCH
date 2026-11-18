@@ -1,0 +1,13 @@
+<section class="auth auth--wide">
+  <a class="t-label" href="{{ routes.account_url }}">{{ 'customer.back' | t }}</a>
+  <h1 class="t-display">{{ 'customer.order' | t }} {{ order.name }}</h1>
+  <p class="t-mono">{{ order.created_at | date: '%d.%m.%Y' }} · {{ order.financial_status_label }}</p>
+  <table class="table">
+    <tbody>
+      {%- for line in order.line_items -%}
+        <tr><td>{{ line.title }}</td><td>× {{ line.quantity }}</td><td>{{ line.final_line_price | money }}</td></tr>
+      {%- endfor -%}
+      <tr><td colspan="2">{{ 'customer.total' | t }}</td><td>{{ order.total_price | money }}</td></tr>
+    </tbody>
+  </table>
+</section>

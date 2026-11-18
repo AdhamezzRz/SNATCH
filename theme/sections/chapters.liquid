@@ -1,0 +1,57 @@
+<section class="chapters" aria-labelledby="ChaptersTitle-{{ section.id }}">
+  <header class="chapters__head">
+    <h2 class="t-h2" id="ChaptersTitle-{{ section.id }}" data-reveal>{{ section.settings.heading | escape }}</h2>
+    {%- if section.settings.text != blank -%}<p class="chapters__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+  </header>
+  <div class="chapters__grid">
+    {%- for block in section.blocks -%}
+      <article class="chapter chapter--{{ forloop.index | modulo: 2 }}" {{ block.shopify_attributes }}>
+        <a class="chapter__link" href="{{ block.settings.link | default: block.settings.product.url | default: '#' }}">
+          <div class="chapter__media" data-clip>
+            <div class="chapter__frame" data-parallax="10">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 900px) 45vw, 100vw', widths: '500, 800, 1100, 1400', alt: block.settings.image.alt, class: 'chapter__img' }}
+              {%- else -%}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'chapter__img placeholder' }}
+              {%- endif -%}
+            </div>
+          </div>
+          <div class="chapter__meta">
+            <span class="t-mono">{{ block.settings.label | escape }}</span>
+            <span class="t-mono">{{ block.settings.place | escape }}</span>
+          </div>
+          <h3 class="chapter__title t-h3">{{ block.settings.title | escape }}</h3>
+          {%- if block.settings.product != blank -%}
+            {%- capture fam -%}{%- render 'product-name', title: block.settings.product.title, part: 'family' -%}{%- endcapture -%}
+            <p class="chapter__product t-mono">{{ fam | strip }} · {{ block.settings.product.price | money }}</p>
+          {%- endif -%}
+        </a>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Lookbook chapters",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Two hours in Cairo." },
+    { "type": "text", "id": "text", "label": "Text", "default": "One shot after dark, one before sunset. Same city, different crime." }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Chapter",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Chapter I" },
+        { "type": "text", "id": "place", "label": "Place and time", "default": "Downtown, 21:40" },
+        { "type": "text", "id": "title", "label": "Title", "default": "After dark" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Defaults to the product." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Lookbook chapters", "blocks": [{ "type": "chapter" }, { "type": "chapter" }] }]
+}
+{% endschema %}

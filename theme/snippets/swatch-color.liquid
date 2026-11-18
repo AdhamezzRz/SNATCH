@@ -1,0 +1,139 @@
+{%- comment -%}
+  Outputs a CSS background value for a colourway name such as "Ivory and Cognac".
+  Accepts: name (string)
+{%- endcomment -%}
+{%- liquid
+  assign n = name | downcase | replace: ' with ', '|' | replace: ' and ', '|' | replace: ' & ', '|'
+  assign tones = n | split: '|'
+  assign out = ''
+  assign is_multi = false
+  if n contains 'multicolor' or n contains 'multicolour' or n contains 'patchwork'
+    assign is_multi = true
+  endif
+  for tone in tones limit: 2
+    assign t = tone | remove: 'print' | remove: 'trim' | remove: 'motifs' | remove: 'motif' | remove: 'flowers' | remove: 'geometric' | remove: 'stripe' | strip
+    assign hex = ''
+    case t
+      when 'black' or 'black multicolor'
+        assign hex = '#141212'
+      when 'white'
+        assign hex = '#F4F1EC'
+      when 'ivory'
+        assign hex = '#EEE6D3'
+      when 'cream'
+        assign hex = '#E9DDC3'
+      when 'beige'
+        assign hex = '#D6C1A0'
+      when 'blush beige'
+        assign hex = '#E2C3B0'
+      when 'sand'
+        assign hex = '#CBB58F'
+      when 'tan'
+        assign hex = '#B4834F'
+      when 'cognac'
+        assign hex = '#97491F'
+      when 'brown'
+        assign hex = '#5A3722'
+      when 'taupe'
+        assign hex = '#8A7969'
+      when 'burgundy'
+        assign hex = '#5E1724'
+      when 'red'
+        assign hex = '#A31F2B'
+      when 'berry'
+        assign hex = '#7D1D45'
+      when 'plum'
+        assign hex = '#4C2140'
+      when 'pink'
+        assign hex = '#E3A7B5'
+      when 'dusty pink'
+        assign hex = '#C79A9C'
+      when 'navy'
+        assign hex = '#1C2741'
+      when 'light blue'
+        assign hex = '#A8C1DB'
+      when 'blue'
+        assign hex = '#3B5889'
+      when 'blue gray'
+        assign hex = '#7D8B98'
+      when 'sage green'
+        assign hex = '#97A78B'
+      when 'olive'
+        assign hex = '#666437'
+      when 'olive gray'
+        assign hex = '#7A7866'
+      when 'dark green'
+        assign hex = '#1E3A2B'
+      when 'light gray'
+        assign hex = '#C8C5C0'
+      when 'stone gray'
+        assign hex = '#9A958C'
+      when 'gray', 'grey'
+        assign hex = '#8D8B88'
+      when 'lilac'
+        assign hex = '#C0ADD6'
+      when 'light lilac'
+        assign hex = '#D8CBE6'
+      when 'purple'
+        assign hex = '#5B3878'
+      when 'orange'
+        assign hex = '#D1682C'
+      when 'silver', 'metallic silver'
+        assign hex = 'linear-gradient(135deg,#7d7d7d,#f2f2f2 45%,#9a9a9a)'
+      when 'gold', 'metallic gold'
+        assign hex = 'linear-gradient(135deg,#8a6a2a,#f1d68c 45%,#a8802f)'
+    endcase
+    if hex == ''
+      assign last_word = t | split: ' ' | last
+      case last_word
+        when 'black'
+          assign hex = '#141212'
+        when 'white'
+          assign hex = '#F4F1EC'
+        when 'cream'
+          assign hex = '#E9DDC3'
+        when 'ivory'
+          assign hex = '#EEE6D3'
+        when 'brown'
+          assign hex = '#5A3722'
+        when 'tan'
+          assign hex = '#B4834F'
+        when 'pink'
+          assign hex = '#E3A7B5'
+        when 'blue'
+          assign hex = '#3B5889'
+        when 'gold'
+          assign hex = 'linear-gradient(135deg,#8a6a2a,#f1d68c 45%,#a8802f)'
+      endcase
+    endif
+    if hex == ''
+      assign first_word = t | split: ' ' | first
+      case first_word
+        when 'black'
+          assign hex = '#141212'
+        when 'brown'
+          assign hex = '#5A3722'
+        when 'navy'
+          assign hex = '#1C2741'
+        when 'ivory'
+          assign hex = '#EEE6D3'
+        when 'cream'
+          assign hex = '#E9DDC3'
+      endcase
+    endif
+    if hex != ''
+      assign out = out | append: hex | append: '|'
+    endif
+  endfor
+  assign parts = out | split: '|'
+-%}
+{%- if is_multi -%}
+  conic-gradient(from 30deg,#A31F2B,#D1682C,#E9DDC3,#3B5889,#1E3A2B,#A31F2B)
+{%- elsif parts.size >= 2 -%}
+  {%- assign a = parts[0] -%}{%- assign b = parts[1] -%}
+  {%- if a contains 'gradient' or b contains 'gradient' -%}{{ a }}{%- else -%}linear-gradient(135deg,{{ a }} 0 50%,{{ b }} 50% 100%){%- endif -%}
+{%- elsif parts.size == 1 -%}
+  {{ parts[0] }}
+{%- else -%}
+  #6f6760
+{%- endif -%}

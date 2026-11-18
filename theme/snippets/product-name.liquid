@@ -1,0 +1,14 @@
+{%- comment -%}
+  Splits "Style - Colour" titles. Outputs either the style name or the colour.
+  Accepts: title, part ('family' | 'colour')
+{%- endcomment -%}
+{%- liquid
+  assign bits = title | split: ' - '
+  if part == 'colour'
+    if bits.size > 1
+      echo bits.last | strip
+    endif
+  else
+    echo bits.first | split: ' (' | first | strip
+  endif
+-%}

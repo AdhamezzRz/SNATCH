@@ -1,0 +1,52 @@
+{%- paginate collection.products by section.settings.per_page -%}
+<section class="plp" data-plp>
+  <header class="plp__head">
+    <div class="plp__title-wrap">
+      <p class="t-mono plp__count">{{ 'general.pieces' | t: count: collection.products_count }}</p>
+      <h1 class="t-mega plp__title" data-reveal>{{ collection.title | escape }}</h1>
+    </div>
+    {%- if collection.description != blank -%}<div class="plp__desc rte">{{ collection.description }}</div>{%- endif -%}
+  </header>
+
+  <div class="plp__tools" data-plp-tools>
+    <div class="chips" role="group" aria-label="{{ 'collections.filter' | t }}" data-chips>
+      <button type="button" class="chip is-active" aria-pressed="true" data-chip="all">{{ 'collections.all' | t }}</button>
+    </div>
+    <div class="sort">
+      <label class="t-label" for="SortBy">{{ 'collections.sort_by' | t }}</label>
+      {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+      <select id="SortBy" class="sort__select" data-sort>
+        {%- for option in collection.sort_options -%}
+          <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+        {%- endfor -%}
+      </select>
+    </div>
+  </div>
+
+  {%- if collection.products.size > 0 -%}
+    <div class="grid grid--4 grid--rhythm" data-plp-grid data-stagger>
+      {% render 'family-grid', products: collection.products, rhythm: true, eager_count: 4 %}
+    </div>
+  {%- else -%}
+    <p class="plp__empty t-h3">{{ 'collections.empty' | t }}</p>
+  {%- endif -%}
+
+  {%- if paginate.pages > 1 -%}
+    <nav class="pager t-mono" aria-label="Pagination">
+      {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="pager__a">&larr;</a>{%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}<a class="pager__a" href="{{ part.url }}">{{ part.title }}</a>{%- elsif part.title == paginate.current_page -%}<span class="pager__a is-current" aria-current="page">{{ part.title }}</span>{%- else -%}<span class="pager__a">{{ part.title }}</span>{%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="pager__a">&rarr;</a>{%- endif -%}
+    </nav>
+  {%- endif -%}
+</section>
+{%- endpaginate -%}
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 24, "max": 240, "step": 24, "default": 240 }
+  ]
+}
+{% endschema %}

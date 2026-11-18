@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "delivery": { "type": "collapsible", "settings": { "title": "Delivery & returns", "content": "<p>Delivery times, fees and returns are confirmed at checkout. Read our shipping and refund policies in the footer for the full details.</p>" } }
+      },
+      "block_order": ["delivery"],
+      "settings": {}
+    },
+    "recs": { "type": "product-recommendations", "settings": { "heading": "Also in the vault" } }
+  },
+  "order": ["main", "recs"]
+}

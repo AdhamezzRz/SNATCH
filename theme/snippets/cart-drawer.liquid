@@ -1,0 +1,25 @@
+<dialog class="drawer" id="CartDrawer" aria-labelledby="CartDrawerTitle" data-cart-drawer>
+  <div class="drawer__panel">
+    <header class="drawer__head">
+      <h2 class="drawer__title" id="CartDrawerTitle">{{ 'cart.title' | t }} <sup class="t-mono" data-cart-count-label>{{ cart.item_count }}</sup></h2>
+      <button type="button" class="icon-btn" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </header>
+    <div class="drawer__body" data-cart-body aria-busy="false">
+      {% render 'cart-lines' %}
+    </div>
+    <footer class="drawer__foot" data-cart-foot {% if cart.item_count == 0 %}hidden{% endif %}>
+      <div class="drawer__total">
+        <span class="t-label">{{ 'cart.subtotal' | t }}</span>
+        <span class="drawer__amount" data-cart-total>{{ cart.total_price | money }}</span>
+      </div>
+      <p class="drawer__note">{{ 'cart.taxes_note' | t }}</p>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="btn btn--primary btn--block" data-magnetic>
+          <span class="btn__label">{{ 'cart.checkout' | t }}</span>{% render 'icon', name: 'arrow' %}
+        </button>
+      </form>
+      <a class="drawer__link t-label" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+    </footer>
+    <p class="sr-only" data-cart-status aria-live="polite" aria-atomic="true"></p>
+  </div>
+</dialog>
