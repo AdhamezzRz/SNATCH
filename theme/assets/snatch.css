@@ -760,3 +760,17 @@ textarea.field { resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- refinements (pass 2) ---------- */
+.logo-mark path { stroke-width: 2px; }
+.hero__pause { left: auto; right: calc(var(--gutter) + 56px); bottom: clamp(28px, 6vh, 72px); transform: none; }
+@media (max-width: 749px) {
+  :root { --logo-w: 112px; }
+  .header__menu-btn .t-label { display: none; }
+  .hero__content { top: calc(var(--header-h) + 20px); bottom: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+  .hero__foot { display: grid; gap: 16px; }
+  .hero__pause { right: var(--gutter); bottom: 156px; }
+  .hero__title { font-size: clamp(42px, 12vw, 60px); }
+}
+.btn--grow, .pdp__bar .btn { white-space: nowrap; }
+@media (max-width: 749px) { .btn--grow { padding: 0 18px; gap: 10px; } .btn--grow .btn__price { font-size: 10px; } }
