@@ -32,18 +32,54 @@
     "lots": {
       "type": "lots",
       "blocks": {
-        "l1": { "type": "lot", "settings": { "product": "snatch-cm8267-ivory-and-cognac" } },
-        "l2": { "type": "lot", "settings": { "product": "snatch-review-a-18771-1-burgundy" } },
-        "l3": { "type": "lot", "settings": { "product": "snatch-m8525-burgundy" } },
-        "l4": { "type": "lot", "settings": { "product": "snatch-gl25002-sage-green" } },
-        "l5": { "type": "lot", "settings": { "product": "snatch-a-18681-navy" } },
-        "l6": { "type": "lot", "settings": { "product": "snatch-gl25337-ivory" } },
-        "l7": { "type": "lot", "settings": { "product": "snatch-kp-8219-cognac" } }
+        "l1": {
+          "type": "lot",
+          "settings": {
+            "product": "snatch-cm8267-ivory-and-cognac"
+          }
+        },
+        "l2": {
+          "type": "lot",
+          "settings": {
+            "product": "snatch-l-06431-black"
+          }
+        },
+        "l3": {
+          "type": "lot",
+          "settings": {
+            "product": "snatch-m8525-burgundy"
+          }
+        },
+        "l4": {
+          "type": "lot",
+          "settings": {
+            "product": "snatch-gl25002-sage-green"
+          }
+        },
+        "l5": {
+          "type": "lot",
+          "settings": {
+            "product": "snatch-a-18681-navy"
+          }
+        },
+        "l6": {
+          "type": "lot",
+          "settings": {
+            "product": "snatch-gl25337-ivory"
+          }
+        }
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5", "l6", "l7"],
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5",
+        "l6"
+      ],
       "settings": {
         "heading": "Tonight's lots",
-        "text": "Seven pieces under the light this week. Keep scrolling to walk the room.",
+        "text": "Six pieces under the light this week. Keep scrolling to walk the room.",
         "end_label": "See every piece",
         "end_link": "/collections/all"
       }
@@ -51,11 +87,11 @@
     "feature": {
       "type": "snatch-feature",
       "settings": {
-        "image": "shopify://shop_images/snatch-caught-in-the-act.png",
+        "image": "shopify://shop_images/snatch-caught-cognac.png",
         "caption": "Exhibit A — 23:58",
         "heading": "Caught in the act.",
-        "text": "<p>Glossy, slouchy, impossible to ignore. The kind of bag people notice before they notice you, and then can't stop looking at.</p>",
-        "product": "snatch-review-a-18771-1-burgundy",
+        "text": "<p>Woven, belted, warm as a Cairo afternoon. The kind of bag people notice before they notice you, and then can't stop looking at.</p>",
+        "product": "snatch-kp-8219-cognac",
         "button_label": "Snatch it",
         "flip": false
       }
@@ -63,13 +99,49 @@
     "colourway": {
       "type": "colourway",
       "blocks": {
-        "c1": { "type": "colourway", "settings": { "product": "snatch-kp-8219-burgundy", "tint": "#6E1A2A" } },
-        "c2": { "type": "colourway", "settings": { "product": "snatch-kp-8219-cognac", "tint": "#7A3A16" } },
-        "c3": { "type": "colourway", "settings": { "product": "snatch-kp-8219-beige-and-tan", "tint": "#6E5A3C" } },
-        "c4": { "type": "colourway", "settings": { "product": "snatch-kp-8219-ivory-and-cognac", "tint": "#6B5C49" } },
-        "c5": { "type": "colourway", "settings": { "product": "snatch-kp-8219-black", "tint": "#2B2A2E" } }
+        "c1": {
+          "type": "colourway",
+          "settings": {
+            "product": "snatch-kp-8219-burgundy",
+            "tint": "#6E1A2A"
+          }
+        },
+        "c2": {
+          "type": "colourway",
+          "settings": {
+            "product": "snatch-kp-8219-cognac",
+            "tint": "#7A3A16"
+          }
+        },
+        "c3": {
+          "type": "colourway",
+          "settings": {
+            "product": "snatch-kp-8219-beige-and-tan",
+            "tint": "#6E5A3C"
+          }
+        },
+        "c4": {
+          "type": "colourway",
+          "settings": {
+            "product": "snatch-kp-8219-ivory-and-cognac",
+            "tint": "#6B5C49"
+          }
+        },
+        "c5": {
+          "type": "colourway",
+          "settings": {
+            "product": "snatch-kp-8219-black",
+            "tint": "#2B2A2E"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
       "settings": {
         "kicker": "One silhouette. Five alibis.",
         "heading": "",
@@ -80,10 +152,31 @@
     "chapters": {
       "type": "chapters",
       "blocks": {
-        "ch1": { "type": "chapter", "settings": { "image": "shopify://shop_images/snatch-after-dark-cairo.png", "label": "Chapter I", "place": "Nile Corniche, 21:40", "title": "After dark", "product": "snatch-m8525-burgundy" } },
-        "ch2": { "type": "chapter", "settings": { "image": "shopify://shop_images/snatch-before-sunset-zamalek.png", "label": "Chapter II", "place": "Zamalek, 17:12", "title": "Before sunset", "product": "snatch-cm8267-ivory-and-cognac" } }
+        "ch1": {
+          "type": "chapter",
+          "settings": {
+            "image": "shopify://shop_images/snatch-after-dark-cairo.png",
+            "label": "Chapter I",
+            "place": "Nile Corniche, 21:40",
+            "title": "After dark",
+            "product": "snatch-m8525-burgundy"
+          }
+        },
+        "ch2": {
+          "type": "chapter",
+          "settings": {
+            "image": "shopify://shop_images/snatch-before-sunset-zamalek.png",
+            "label": "Chapter II",
+            "place": "Zamalek, 17:12",
+            "title": "Before sunset",
+            "product": "snatch-cm8267-ivory-and-cognac"
+          }
+        }
       },
-      "block_order": ["ch1", "ch2"],
+      "block_order": [
+        "ch1",
+        "ch2"
+      ],
       "settings": {
         "heading": "Two hours in Cairo.",
         "text": "One shot after dark, one before sunset. Same city, different crime."
@@ -110,5 +203,14 @@
       }
     }
   },
-  "order": ["hero", "manifesto", "lots", "feature", "colourway", "chapters", "vault", "closing"]
+  "order": [
+    "hero",
+    "manifesto",
+    "lots",
+    "feature",
+    "colourway",
+    "chapters",
+    "vault",
+    "closing"
+  ]
 }
