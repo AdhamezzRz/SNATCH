@@ -51,7 +51,7 @@
     endif
   endcapture
 -%}
-<article class="card{% if size != blank %} card--{{ size }}{% endif %}" data-card data-shape="{{ shape | handleize }}" data-shape-label="{{ shape | escape }}" data-colours="{{ families | strip | escape }}">
+<article class="card{% if size != blank %} card--{{ size }}{% endif %}" data-card data-shape="{{ shape | handleize }}" data-shape-label="{{ shape | escape }}" data-colours="{{ families | strip | escape }}"{% if idx.size < 2 and colour != blank and settings.group_colorways %} data-family-fetch="{{ family | escape }}"{% endif %}>
   <div class="card__frame">
   <a class="card__media stage" href="{{ p.url }}" data-card-link tabindex="-1" aria-hidden="true" style="view-transition-name: p-{{ p.id }}">
     {%- if img -%}

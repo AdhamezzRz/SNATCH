@@ -24,42 +24,139 @@
           }
         }
       },
-      "block_order": ["day", "night"],
-      "settings": { "label": "Featured edits" }
+      "block_order": [
+        "day",
+        "night"
+      ],
+      "settings": {
+        "label": "Featured edits"
+      }
     },
     "shapes": {
       "type": "shape-rail",
       "blocks": {
-        "s1": { "type": "shape", "settings": { "label": "Totes", "product": "snatch-cm8267-ivory-and-cognac", "link": "/collections/all?shape=totes" } },
-        "s2": { "type": "shape", "settings": { "label": "Shoulder bags", "product": "snatch-bxx012509109-cream", "link": "/collections/all?shape=shoulder-bags" } },
-        "s3": { "type": "shape", "settings": { "label": "Crossbody", "product": "snatch-zara-1-cognac", "link": "/collections/all?shape=crossbody" } },
-        "s4": { "type": "shape", "settings": { "label": "Clutches", "product": "snatch-m8525-ivory", "link": "/collections/all?shape=clutches" } },
-        "s5": { "type": "shape", "settings": { "label": "Buckets", "product": "snatch-kp-8219-beige-and-tan", "link": "/collections/all?shape=buckets" } },
-        "s6": { "type": "shape", "settings": { "label": "Satchels", "product": "snatch-l-06431-cream", "link": "/collections/all?shape=satchels" } }
+        "s1": {
+          "type": "shape",
+          "settings": {
+            "label": "Totes",
+            "product": "snatch-cm8267-ivory-and-cognac",
+            "link": "/collections/all?shape=totes"
+          }
+        },
+        "s2": {
+          "type": "shape",
+          "settings": {
+            "label": "Shoulder bags",
+            "product": "snatch-bxx012509109-cream",
+            "link": "/collections/all?shape=shoulder-bags"
+          }
+        },
+        "s3": {
+          "type": "shape",
+          "settings": {
+            "label": "Crossbody",
+            "product": "snatch-zara-1-cognac",
+            "link": "/collections/all?shape=crossbody"
+          }
+        },
+        "s4": {
+          "type": "shape",
+          "settings": {
+            "label": "Clutches",
+            "product": "snatch-m8525-ivory",
+            "link": "/collections/all?shape=clutches"
+          }
+        },
+        "s5": {
+          "type": "shape",
+          "settings": {
+            "label": "Buckets",
+            "product": "snatch-kp-8219-beige-and-tan",
+            "link": "/collections/all?shape=buckets"
+          }
+        },
+        "s6": {
+          "type": "shape",
+          "settings": {
+            "label": "Satchels",
+            "product": "snatch-l-06431-cream",
+            "link": "/collections/all?shape=satchels"
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3", "s4", "s5", "s6"],
-      "settings": { "heading": "Shop by shape" }
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "settings": {
+        "heading": "Shop by shape"
+      }
     },
     "new_in": {
       "type": "product-grid",
       "settings": {
-        "heading": "New in",
-        "newest": true,
+        "heading": "The edit",
+        "newest": false,
         "limit": 8,
-        "link_label": "View all",
-        "link": "/collections/all"
+        "link_label": "Shop all bags",
+        "link": "/collections/all",
+        "products": [
+          "snatch-kp-8219-burgundy",
+          "snatch-cm8267-ivory-and-cognac",
+          "snatch-bxx012509109-cream",
+          "snatch-zara-1-cognac",
+          "snatch-m8525-burgundy",
+          "snatch-l-06431-black",
+          "snatch-gl25002-sage-green",
+          "snatch-60420-ivory-and-cognac"
+        ]
       }
     },
     "finder": {
       "type": "colour-finder",
       "blocks": {
-        "c1": { "type": "colour", "settings": { "product": "snatch-kp-8219-burgundy" } },
-        "c2": { "type": "colour", "settings": { "product": "snatch-kp-8219-cognac" } },
-        "c3": { "type": "colour", "settings": { "product": "snatch-kp-8219-beige-and-tan" } },
-        "c4": { "type": "colour", "settings": { "product": "snatch-kp-8219-ivory-and-cognac" } },
-        "c5": { "type": "colour", "settings": { "product": "snatch-kp-8219-black" } }
+        "c1": {
+          "type": "colour",
+          "settings": {
+            "product": "snatch-kp-8219-burgundy"
+          }
+        },
+        "c2": {
+          "type": "colour",
+          "settings": {
+            "product": "snatch-kp-8219-cognac"
+          }
+        },
+        "c3": {
+          "type": "colour",
+          "settings": {
+            "product": "snatch-kp-8219-beige-and-tan"
+          }
+        },
+        "c4": {
+          "type": "colour",
+          "settings": {
+            "product": "snatch-kp-8219-ivory-and-cognac"
+          }
+        },
+        "c5": {
+          "type": "colour",
+          "settings": {
+            "product": "snatch-kp-8219-black"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5"
+      ],
       "settings": {
         "heading": "One bag, every mood.",
         "text": "Tap a colour to see it. Add it to your bag without leaving the page.",
@@ -67,5 +164,10 @@
       }
     }
   },
-  "order": ["hero", "shapes", "new_in", "finder"]
+  "order": [
+    "hero",
+    "shapes",
+    "new_in",
+    "finder"
+  ]
 }

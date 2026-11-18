@@ -253,6 +253,78 @@
     });
   }
 
+  /* ---------- hand-picked cards: fetch their other colours ---------- */
+  const COLOURS = { black: '#141212', white: '#F4F1EC', ivory: '#EEE6D3', cream: '#E9DDC3', beige: '#D6C1A0', sand: '#CBB58F', tan: '#B4834F', cognac: '#97491F', brown: '#5A3722', taupe: '#8A7969', burgundy: '#5E1724', red: '#A31F2B', berry: '#7D1D45', plum: '#4C2140', pink: '#E3A7B5', navy: '#1C2741', blue: '#3B5889', sage: '#97A78B', green: '#3E5A3A', olive: '#666437', gray: '#9A958C', grey: '#9A958C', silver: '#C0C0C0', gold: '#C8A24A', lilac: '#C0ADD6', purple: '#5B3878', orange: '#D1682C' };
+  function colourCss(name) {
+    const n = String(name || '').toLowerCase();
+    if (/multicolor|patchwork/.test(n)) return 'conic-gradient(from 30deg,#A31F2B,#D1682C,#E9DDC3,#3B5889,#1E3A2B,#A31F2B)';
+    const parts = n.split(/\s+(?:and|with|&)\s+/).slice(0, 2).map((t) => {
+      const words = t.split(/\s+/).reverse();
+      const hit = words.find((w) => COLOURS[w]);
+      return hit ? COLOURS[hit] : null;
+    }).filter(Boolean);
+    if (parts.length >= 2) return 'linear-gradient(135deg,' + parts[0] + ' 0 50%,' + parts[1] + ' 50% 100%)';
+    return parts[0] || '#8f8a84';
+  }
+  function familyDots(scope = d) {
+    const cards = $$('[data-family-fetch]', scope).filter((c) => !c.dataset.famDone);
+    if (!cards.length) return;
+    const sized = (u, w) => (u ? u + (u.includes('?') ? '&' : '?') + 'width=' + w : '');
+    const toCents = (p) => (String(p).includes('.') ? Math.round(parseFloat(p) * 100) : Number(p));
+    const load = async (card) => {
+      card.dataset.famDone = '1';
+      const family = card.dataset.familyFetch;
+      try {
+        const url = S.routes.predictive + '.json?q=' + encodeURIComponent(family) + '&resources[type]=product&resources[limit]=10&resources[options][unavailable_products]=last&resources[options][fields]=title';
+        const json = await fetch(url).then((r) => r.json());
+        const items = ((json.resources && json.resources.results && json.resources.results.products) || [])
+          .filter((p) => String(p.title).split(' - ')[0].trim().toLowerCase() === family.toLowerCase());
+        if (items.length < 2) return;
+        const link = $('[data-card-link]', card);
+        const here = link ? link.getAttribute('href').split('?')[0] : '';
+        const ul = d.createElement('ul');
+        ul.className = 'dots';
+        ul.setAttribute('role', 'list');
+        items.slice(0, 7).forEach((p) => {
+          const col = String(p.title).split(' - ').slice(1).join(' - ') || p.title;
+          const img = p.featured_image && p.featured_image.url;
+          const v = (p.variants && p.variants[0]) || {};
+          const li = d.createElement('li');
+          const a = d.createElement('a');
+          a.className = 'dot' + (String(p.url).split('?')[0] === here ? ' is-active' : '');
+          a.href = p.url;
+          a.setAttribute('data-dot', '');
+          a.dataset.colour = col;
+          a.dataset.variant = v.id || '';
+          a.dataset.available = v.available === false ? 'false' : 'true';
+          a.dataset.title = p.title;
+          a.dataset.img = sized(img, 900);
+          a.dataset.srcset = sized(img, 540) + ' 540w, ' + sized(img, 900) + ' 900w, ' + sized(img, 1200) + ' 1200w';
+          a.dataset.price = formatMoney(toCents(p.price));
+          a.setAttribute('aria-label', family + ' – ' + col);
+          a.style.setProperty('--dot', colourCss(col));
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        $('.card__meta', card).appendChild(ul);
+        const sub = $('.card__sub', card);
+        if (sub && !$('.card__count', sub)) {
+          const span = d.createElement('span');
+          span.className = 'card__count';
+          span.textContent = ' · ' + items.length;
+          sub.appendChild(span);
+        }
+        delete card.dataset.bound;
+        bindCards(card.parentElement);
+      } catch (e) { /* dots are an enhancement */ }
+    };
+    if (!('IntersectionObserver' in window)) { cards.forEach(load); return; }
+    const obs = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { obs.unobserve(en.target); load(en.target); }
+    }), { rootMargin: '200px 0px' });
+    cards.forEach((c) => obs.observe(c));
+  }
+
   /* ---------- reveal: one quiet fade, once ---------- */
   let io = null;
   function reveals(scope = d) {
@@ -525,7 +597,7 @@
         const tmp = d.createElement('div');
         tmp.innerHTML = text;
         const fresh = tmp.querySelector('[data-recs]');
-        if (fresh && fresh.innerHTML.trim()) { el.innerHTML = fresh.innerHTML; bindCards(el); reveals(el); }
+        if (fresh && fresh.innerHTML.trim()) { el.innerHTML = fresh.innerHTML; bindCards(el); familyDots(el); reveals(el); }
       } catch (e) { /* optional */ }
     });
   }
@@ -535,6 +607,7 @@
     search();
     initCart();
     bindCards();
+    familyDots();
     quickAdd();
     finders();
     collection();
@@ -542,7 +615,7 @@
     recommendations();
     reveals();
   }
-  d.addEventListener('shopify:section:load', (e) => { bindCards(e.target); reveals(e.target); finders(); });
+  d.addEventListener('shopify:section:load', (e) => { bindCards(e.target); familyDots(e.target); reveals(e.target); finders(); });
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', boot); else boot();
   window.SNATCH.formatMoney = formatMoney;
 })();
